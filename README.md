@@ -5,7 +5,7 @@
 
 ## @thingmate/zigbee
 
-Zigbee adapters
+Zigbee adapters: adapters between Zigbee commands and Entities.
 
 ## 📦 Installation
 

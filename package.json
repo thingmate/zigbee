@@ -1,6 +1,6 @@
 {
   "name": "@thingmate/zigbee",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "type": "module",
   "main": "./index.js",
   "scripts": {
@@ -24,22 +24,22 @@
     "url": "git+https://github.com/thingmate/zigbee.git"
   },
   "devDependencies": {
-    "@types/node": "^24.9.1",
-    "@vitest/coverage-istanbul": "^4.0.4",
+    "@types/node": "^24.9.2",
+    "@vitest/coverage-istanbul": "^4.0.5",
     "prettier": "^3.6.2",
     "prettier-plugin-organize-imports": "^4.3.0",
     "typedoc": "^0.28.14",
     "typescript": "^5.9.3",
-    "vitest": "^4.0.4"
+    "vitest": "^4.0.5"
   },
   "packageManager": "yarn@4.10.3",
   "fabrique": {
-    "version": "1.0.12",
+    "version": "1.0.13",
     "type": "lib"
   },
   "dependencies": {
     "@thingmate/entity": "^0.9.0",
-    "@xstd/codec": "^0.7.0-dev.1760356698266",
-    "@xstd/flow": "^0.9.0"
+    "@xstd/codec": "^0.7.0",
+    "@xstd/flow": "^0.9.1"
   }
 }

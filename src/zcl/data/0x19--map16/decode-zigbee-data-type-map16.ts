@@ -1,5 +1,5 @@
 import { type Decoder } from '@xstd/codec';
 
-export function decodeZigbeeDataTypeUint16(decoder: Decoder): number {
+export function decodeZigbeeDataTypeMap16(decoder: Decoder): number {
   return decoder.uint16LE();
 }

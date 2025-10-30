@@ -9,6 +9,13 @@ import { decodeZigbeeDataTypeData56 } from '../0x0d--data56/decode-zigbee-data-t
 import { decodeZigbeeDataTypeData64 } from '../0x0f--data64/decode-zigbee-data-type-data64.js';
 import { decodeZigbeeDataTypeBoolean } from '../0x10--boolean/decode-zigbee-data-type-boolean.js';
 import { decodeZigbeeDataTypeMap8 } from '../0x18--map8/decode-zigbee-data-type-map8.js';
+import { decodeZigbeeDataTypeMap16 } from '../0x19--map16/decode-zigbee-data-type-map16.js';
+import { decodeZigbeeDataTypeMap24 } from '../0x1a--map24/decode-zigbee-data-type-map24.js';
+import { decodeZigbeeDataTypeMap32 } from '../0x1b--map32/decode-zigbee-data-type-map32.js';
+import { decodeZigbeeDataTypeMap40 } from '../0x1c--map40/decode-zigbee-data-type-map40.js';
+import { decodeZigbeeDataTypeMap48 } from '../0x1d--map48/decode-zigbee-data-type-map48.js';
+import { decodeZigbeeDataTypeMap56 } from '../0x1e--map56/decode-zigbee-data-type-map56.js';
+import { decodeZigbeeDataTypeMap64 } from '../0x1f--map64/decode-zigbee-data-type-map64.js';
 import { decodeZigbeeDataTypeUint8 } from '../0x20--uint8/decode-zigbee-data-type-uint8.js';
 import { decodeZigbeeDataTypeUint16 } from '../0x21--uint16/decode-zigbee-data-type-uint16.js';
 import { decodeZigbeeDataTypeUint24 } from '../0x22--uint24/decode-zigbee-data-type-uint24.js';
@@ -19,6 +26,7 @@ import { decodeZigbeeDataTypeUint56 } from '../0x26--uint56/decode-zigbee-data-t
 import { decodeZigbeeDataTypeUint64 } from '../0x27--uint64/decode-zigbee-data-type-uint64.js';
 import { decodeZigbeeDataTypeInt8 } from '../0x28--int8/decode-zigbee-data-type-int8.js';
 import { decodeZigbeeDataTypeInt16 } from '../0x29--int16/decode-zigbee-data-type-int16.js';
+import { decodeZigbeeDataTypeInt24 } from '../0x2a--int24/decode-zigbee-data-type-int24.js';
 import { decodeZigbeeDataTypeInt32 } from '../0x2b--int32/decode-zigbee-data-type-int32.js';
 import { decodeZigbeeDataTypeInt64 } from '../0x2f--int64/decode-zigbee-data-type-int64.js';
 import { decodeZigbeeDataTypeEnum8 } from '../0x30--enum8/decode-zigbee-data-type-enum8.js';
@@ -52,9 +60,19 @@ export function decodeZigbeeDataTypeUnknown(decoder: Decoder, dataType: number):
     case 0x18:
       return decodeZigbeeDataTypeMap8(decoder);
     case 0x19:
-      throw new Error('Missing implementation of map16.');
-    // return decodeZigbeeDataTypeMap16(decoder);
-    // TODO 0x19->0x1f (mapX)
+      return decodeZigbeeDataTypeMap16(decoder);
+    case 0x1a:
+      return decodeZigbeeDataTypeMap24(decoder);
+    case 0x1b:
+      return decodeZigbeeDataTypeMap32(decoder);
+    case 0x1c:
+      return decodeZigbeeDataTypeMap40(decoder);
+    case 0x1d:
+      return decodeZigbeeDataTypeMap48(decoder);
+    case 0x1e:
+      return decodeZigbeeDataTypeMap56(decoder);
+    case 0x1f:
+      return decodeZigbeeDataTypeMap64(decoder);
     case 0x20:
       return decodeZigbeeDataTypeUint8(decoder);
     case 0x21:
@@ -75,8 +93,8 @@ export function decodeZigbeeDataTypeUnknown(decoder: Decoder, dataType: number):
       return decodeZigbeeDataTypeInt8(decoder);
     case 0x29:
       return decodeZigbeeDataTypeInt16(decoder);
-    // case 0x2a:
-    //   return decodeZigbeeDataTypeInt24(decoder);
+    case 0x2a:
+      return decodeZigbeeDataTypeInt24(decoder);
     case 0x2b:
       return decodeZigbeeDataTypeInt32(decoder);
     // case 0x2c:
@@ -97,11 +115,17 @@ export function decodeZigbeeDataTypeUnknown(decoder: Decoder, dataType: number):
       return decodeZigbeeDataTypeFloat32(decoder);
     case 0x3a:
       return decodeZigbeeDataTypeFloat64(decoder);
-    // TODO 0x41 (octstr)
+    case 0x41:
+      // TODO 0x41 (octstr)
+      throw new Error('Missing implementation of octstr.');
     case 0x42:
       return decodeZigbeeDataTypeString(decoder);
-    // TODO 0x43 (octstr16)
-    // TODO 0x44 (string16)
+    case 0x43:
+      // TODO 0x43 (octstr16)
+      throw new Error('Missing implementation of octstr16.');
+    case 0x44:
+      // TODO 0x44 (string16)
+      throw new Error('Missing implementation of string16.');
     case 0x48:
       return decodeZigbeeDataTypeArray(decoder);
     // TODO 0x4c (struct)

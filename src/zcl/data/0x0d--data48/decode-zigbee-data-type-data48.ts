@@ -1,5 +1,5 @@
 import { type Decoder } from '@xstd/codec';
-import { decodeUint48LE } from '../__shared__/uint48/decode-uint48-l-e.js';
+import { decodeUint48LE } from '../shared.private/uint48/decode-uint48-l-e.js';
 
 export function decodeZigbeeDataTypeData48(decoder: Decoder): number {
   return decodeUint48LE(decoder);

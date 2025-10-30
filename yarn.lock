@@ -699,15 +699,15 @@ __metadata:
   resolution: "@thingmate/zigbee@workspace:."
   dependencies:
     "@thingmate/entity": "npm:^0.9.0"
-    "@types/node": "npm:^24.9.1"
-    "@vitest/coverage-istanbul": "npm:^4.0.4"
-    "@xstd/codec": "npm:^0.7.0-dev.1760356698266"
-    "@xstd/flow": "npm:^0.9.0"
+    "@types/node": "npm:^24.9.2"
+    "@vitest/coverage-istanbul": "npm:^4.0.5"
+    "@xstd/codec": "npm:^0.7.0"
+    "@xstd/flow": "npm:^0.9.1"
     prettier: "npm:^3.6.2"
     prettier-plugin-organize-imports: "npm:^4.3.0"
     typedoc: "npm:^0.28.14"
     typescript: "npm:^5.9.3"
-    vitest: "npm:^4.0.4"
+    vitest: "npm:^4.0.5"
   languageName: unknown
   linkType: soft
 
@@ -744,7 +744,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^24.9.1":
+"@types/node@npm:^24.9.2":
   version: 24.9.2
   resolution: "@types/node@npm:24.9.2"
   dependencies:
@@ -760,7 +760,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vitest/coverage-istanbul@npm:^4.0.4":
+"@vitest/coverage-istanbul@npm:^4.0.5":
   version: 4.0.5
   resolution: "@vitest/coverage-istanbul@npm:4.0.5"
   dependencies:
@@ -866,10 +866,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xstd/codec@npm:^0.7.0-dev.1760356698266":
-  version: 0.7.0-dev.1760356698266
-  resolution: "@xstd/codec@npm:0.7.0-dev.1760356698266"
-  checksum: 10c0/30bb893cfb82fe8645c345cc1617e19c943cdb289a94a3afc28c0bedb5c81fa489f7342fbd098ccc0e08573d5541860e32172e8604c3d2476f7c286fd2642ab2
+"@xstd/codec@npm:^0.7.0":
+  version: 0.7.0
+  resolution: "@xstd/codec@npm:0.7.0"
+  checksum: 10c0/ffc8eb629d9ee2451f106feaa3c9eced25c3eaada6a5090fead02c646ec8ea7059608d2561f970fd3c181b7262a0fcdce1bb954ac1cb3cf7a7b2b489b47952b8
   languageName: node
   linkType: hard
 
@@ -913,6 +913,21 @@ __metadata:
     "@xstd/functional": "npm:^0.3.0"
     "@xstd/none": "npm:^1.0.0"
   checksum: 10c0/d5b869a507db99c1df09795b0c8870ea4c7d9b2d148d7476dbfaadd7daa5c7e44e72f78e5034f89215e8efc123b67dd9e0289f267ebcda1cc0e507a50c4c417e
+  languageName: node
+  linkType: hard
+
+"@xstd/flow@npm:^0.9.1":
+  version: 0.9.1
+  resolution: "@xstd/flow@npm:0.9.1"
+  dependencies:
+    "@xstd/abortable": "npm:^1.2.1"
+    "@xstd/disposable": "npm:^0.1.1"
+    "@xstd/enum": "npm:^1.0.0"
+    "@xstd/enumerable": "npm:^0.9.0"
+    "@xstd/equal-function": "npm:^0.0.1"
+    "@xstd/functional": "npm:^0.3.0"
+    "@xstd/none": "npm:^1.0.0"
+  checksum: 10c0/964f194f435e4b1fd5fc7e8ad823f2384270e399798b004db0ca1819746ae2bb452d65b2bd18cd6d0b1167ca7275f1b04193ad41b5ba5e910d3ba9e5cb9b686e
   languageName: node
   linkType: hard
 
@@ -2347,7 +2362,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vitest@npm:^4.0.4":
+"vitest@npm:^4.0.5":
   version: 4.0.5
   resolution: "vitest@npm:4.0.5"
   dependencies:

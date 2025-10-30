@@ -1,5 +1,5 @@
 import { type Encoder } from '@xstd/codec';
 
-export function encodeZigbeeDataTypeUint64(encoder: Encoder, input: bigint | number): void {
+export function encodeZigbeeDataTypeMap64(encoder: Encoder, input: bigint | number): void {
   encoder.uint64LE(input);
 }

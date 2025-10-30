@@ -9,6 +9,13 @@ import { encodeZigbeeDataTypeData56 } from '../0x0d--data56/encode-zigbee-data-t
 import { encodeZigbeeDataTypeData64 } from '../0x0f--data64/encode-zigbee-data-type-data64.js';
 import { encodeZigbeeDataTypeBoolean } from '../0x10--boolean/encode-zigbee-data-type-boolean.js';
 import { encodeZigbeeDataTypeMap8 } from '../0x18--map8/encode-zigbee-data-type-map8.js';
+import { encodeZigbeeDataTypeMap16 } from '../0x19--map16/encode-zigbee-data-type-map16.js';
+import { encodeZigbeeDataTypeMap24 } from '../0x1a--map24/encode-zigbee-data-type-map24.js';
+import { encodeZigbeeDataTypeMap32 } from '../0x1b--map32/encode-zigbee-data-type-map32.js';
+import { encodeZigbeeDataTypeMap40 } from '../0x1c--map40/encode-zigbee-data-type-map40.js';
+import { encodeZigbeeDataTypeMap48 } from '../0x1d--map48/encode-zigbee-data-type-map48.js';
+import { encodeZigbeeDataTypeMap56 } from '../0x1e--map56/encode-zigbee-data-type-map56.js';
+import { encodeZigbeeDataTypeMap64 } from '../0x1f--map64/encode-zigbee-data-type-map64.js';
 import { encodeZigbeeDataTypeUint8 } from '../0x20--uint8/encode-zigbee-data-type-uint8.js';
 import { encodeZigbeeDataTypeUint16 } from '../0x21--uint16/encode-zigbee-data-type-uint16.js';
 import { encodeZigbeeDataTypeUint24 } from '../0x22--uint24/encode-zigbee-data-type-uint24.js';
@@ -19,6 +26,7 @@ import { encodeZigbeeDataTypeUint56 } from '../0x26--uint56/encode-zigbee-data-t
 import { encodeZigbeeDataTypeUint64 } from '../0x27--uint64/encode-zigbee-data-type-uint64.js';
 import { encodeZigbeeDataTypeInt8 } from '../0x28--int8/encode-zigbee-data-type-int8.js';
 import { encodeZigbeeDataTypeInt16 } from '../0x29--int16/encode-zigbee-data-type-int16.js';
+import { encodeZigbeeDataTypeInt24 } from '../0x2a--int24/encode-zigbee-data-type-int24.js';
 import { encodeZigbeeDataTypeInt32 } from '../0x2b--int32/encode-zigbee-data-type-int32.js';
 import { encodeZigbeeDataTypeInt64 } from '../0x2f--int64/encode-zigbee-data-type-int64.js';
 import { encodeZigbeeDataTypeEnum8 } from '../0x30--enum8/encode-zigbee-data-type-enum8.js';
@@ -64,7 +72,27 @@ export function encodeZigbeeDataTypeUnknown(
     case 0x18:
       encodeZigbeeDataTypeMap8(encoder, value as number);
       break;
-    // TODO 0x19->0x1f (mapX)
+    case 0x19:
+      encodeZigbeeDataTypeMap16(encoder, value as number);
+      break;
+    case 0x1a:
+      encodeZigbeeDataTypeMap24(encoder, value as number);
+      break;
+    case 0x1b:
+      encodeZigbeeDataTypeMap32(encoder, value as number);
+      break;
+    case 0x1c:
+      encodeZigbeeDataTypeMap40(encoder, value as number);
+      break;
+    case 0x1d:
+      encodeZigbeeDataTypeMap48(encoder, value as number);
+      break;
+    case 0x1e:
+      encodeZigbeeDataTypeMap56(encoder, value as number);
+      break;
+    case 0x1f:
+      encodeZigbeeDataTypeMap64(encoder, value as number);
+      break;
     case 0x20:
       encodeZigbeeDataTypeUint8(encoder, value as number);
       break;
@@ -95,9 +123,9 @@ export function encodeZigbeeDataTypeUnknown(
     case 0x29:
       encodeZigbeeDataTypeInt16(encoder, value as number);
       break;
-    // case 0x2a:
-    //   encodeZigbeeDataTypeInt24(encoder, value as number);
-    //   break;
+    case 0x2a:
+      encodeZigbeeDataTypeInt24(encoder, value as number);
+      break;
     case 0x2b:
       encodeZigbeeDataTypeInt32(encoder, value as number);
       break;
