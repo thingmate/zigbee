@@ -1,0 +1,9 @@
+import { ZIGBEE_CLUSTER_0x0006_COMMAND_PREDEFINED_PROPERTIES } from '../../zigbee-cluster-0x0006-command.js';
+
+export const ZIGBEE_CLUSTER_0x0006_COMMAND_0x01_PREDEFINED_PROPERTIES = Object.freeze({
+  ...ZIGBEE_CLUSTER_0x0006_COMMAND_PREDEFINED_PROPERTIES,
+  command: 0x01,
+});
+
+export type ZigbeeCluster0x0006Command0x01PredefinedProperties =
+  typeof ZIGBEE_CLUSTER_0x0006_COMMAND_0x01_PREDEFINED_PROPERTIES;

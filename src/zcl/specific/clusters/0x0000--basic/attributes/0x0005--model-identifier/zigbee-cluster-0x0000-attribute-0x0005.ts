@@ -1,0 +1,3 @@
+export const ZIGBEE_CLUSTER_0x0000_ATTRIBUTE_0x0005 = 0x0005;
+
+export type ZigbeeCluster0x0000Attribute0x0005 = typeof ZIGBEE_CLUSTER_0x0000_ATTRIBUTE_0x0005;
