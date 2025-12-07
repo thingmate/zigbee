@@ -28,6 +28,9 @@ import { encodeZigbeeDataTypeInt8 } from '../0x28--int8/encode-zigbee-data-type-
 import { encodeZigbeeDataTypeInt16 } from '../0x29--int16/encode-zigbee-data-type-int16.js';
 import { encodeZigbeeDataTypeInt24 } from '../0x2a--int24/encode-zigbee-data-type-int24.js';
 import { encodeZigbeeDataTypeInt32 } from '../0x2b--int32/encode-zigbee-data-type-int32.js';
+import { encodeZigbeeDataTypeInt40 } from '../0x2c--int40/encode-zigbee-data-type-int40.js';
+import { encodeZigbeeDataTypeInt48 } from '../0x2d--int48/encode-zigbee-data-type-int48.js';
+import { encodeZigbeeDataTypeInt56 } from '../0x2e--int56/encode-zigbee-data-type-int56.js';
 import { encodeZigbeeDataTypeInt64 } from '../0x2f--int64/encode-zigbee-data-type-int64.js';
 import { encodeZigbeeDataTypeEnum8 } from '../0x30--enum8/encode-zigbee-data-type-enum8.js';
 import { encodeZigbeeDataTypeEnum16 } from '../0x31--enum16/encode-zigbee-data-type-enum16.js';
@@ -129,15 +132,15 @@ export function encodeZigbeeDataTypeUnknown(
     case 0x2b:
       encodeZigbeeDataTypeInt32(encoder, value as number);
       break;
-    // case 0x2c:
-    //   encodeZigbeeDataTypeInt40(encoder, value as number);
-    //   break;
-    // case 0x2d:
-    //   encodeZigbeeDataTypeInt48(encoder, value as number);
-    //   break;
-    // case 0x2e:
-    //   encodeZigbeeDataTypeInt56(encoder, value as number);
-    //   break;
+    case 0x2c:
+      encodeZigbeeDataTypeInt40(encoder, value as number);
+      break;
+    case 0x2d:
+      encodeZigbeeDataTypeInt48(encoder, value as number);
+      break;
+    case 0x2e:
+      encodeZigbeeDataTypeInt56(encoder, value as bigint);
+      break;
     case 0x2f:
       encodeZigbeeDataTypeInt64(encoder, value as bigint | number);
       break;

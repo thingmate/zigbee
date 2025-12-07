@@ -1,7 +1,7 @@
-import { type SendZigbeeCommand } from '../entities/actions/send/send-zigbee-command.js';
-import { type ZigbeeCommandObserver } from '../entities/events/observer/zigbee-command-observer.js';
+import { type SendZigbeeCommandAction } from '../interfaces/actions/send/send-zigbee-command.action.js';
+import { type ObserveZigbeeCommandFlow } from '../interfaces/flows/observe/observe-zigbee-command.flow.js';
 
 export interface ZigbeeCommandAdapter {
-  readonly send: SendZigbeeCommand;
-  readonly observer: ZigbeeCommandObserver;
+  readonly send: SendZigbeeCommandAction;
+  readonly observe: ObserveZigbeeCommandFlow;
 }
