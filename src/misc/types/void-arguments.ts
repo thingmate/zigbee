@@ -1,0 +1,1 @@
+export type VoidArguments = readonly [];
