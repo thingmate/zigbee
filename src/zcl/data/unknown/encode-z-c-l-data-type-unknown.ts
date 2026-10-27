@@ -1,11 +1,12 @@
 import type { Encoder } from '@xstd/codec';
+import { encodeZCLDataTypeNoData } from '../0x00--no-data/encode-z-c-l-data-type-no-data.ts';
 import { encodeZCLDataTypeData8 } from '../0x08--data8/encode-z-c-l-data-type-data8.ts';
 import { encodeZCLDataTypeData16 } from '../0x09--data16/encode-z-c-l-data-type-data16.ts';
 import { encodeZCLDataTypeData24 } from '../0x0a--data24/encode-z-c-l-data-type-data24.ts';
 import { encodeZCLDataTypeData32 } from '../0x0b--data32/encode-z-c-l-data-type-data32.ts';
 import { encodeZCLDataTypeData40 } from '../0x0c--data40/encode-z-c-l-data-type-data40.ts';
 import { encodeZCLDataTypeData48 } from '../0x0d--data48/encode-z-c-l-data-type-data48.ts';
-import { encodeZCLDataTypeData56 } from '../0x0d--data56/encode-z-c-l-data-type-data56.ts';
+import { encodeZCLDataTypeData56 } from '../0x0e--data56/encode-z-c-l-data-type-data56.ts';
 import { encodeZCLDataTypeData64 } from '../0x0f--data64/encode-z-c-l-data-type-data64.ts';
 import { encodeZCLDataTypeBoolean } from '../0x10--boolean/encode-z-c-l-data-type-boolean.ts';
 import { encodeZCLDataTypeMap8 } from '../0x18--map8/encode-z-c-l-data-type-map8.ts';
@@ -37,12 +38,32 @@ import { encodeZCLDataTypeEnum16 } from '../0x31--enum16/encode-z-c-l-data-type-
 import { encodeZCLDataTypeFloat16 } from '../0x38--float16/encode-z-c-l-data-type-float16.ts';
 import { encodeZCLDataTypeFloat32 } from '../0x39--float32/encode-z-c-l-data-type-float32.ts';
 import { encodeZCLDataTypeFloat64 } from '../0x3a--float64/encode-z-c-l-data-type-float64.ts';
+import { encodeZCLDataTypeOctetString } from '../0x41--octet-string/encode-z-c-l-data-type-octet-string.ts';
 import { encodeZCLDataTypeString } from '../0x42--string/encode-z-c-l-data-type-string.ts';
+import { encodeZCLDataTypeLongOctetString } from '../0x43--long-octet-string/encode-z-c-l-data-type-long-octet-string.ts';
+import { encodeZCLDataTypeLongString } from '../0x44--long-string/encode-z-c-l-data-type-long-string.ts';
 import { encodeZCLDataTypeArray } from '../0x48--array/encode-z-c-l-data-type-array.ts';
+import { encodeZCLDataTypeStructure } from '../0x4c--structure/encode-z-c-l-data-type-structure.ts';
+import { encodeZCLDataTypeSet } from '../0x50--set/encode-z-c-l-data-type-set.ts';
+import { encodeZCLDataTypeBag } from '../0x51--bag/encode-z-c-l-data-type-bag.ts';
+import { encodeZCLDataTypeIeeeAddress } from '../0xf0--ieee-address/encode-z-c-l-data-type-ieee-address.ts';
+import { encodeZCLDataTypeSecurityKey } from '../0xf1--security-key/encode-z-c-l-data-type-security-key.ts';
+import { encodeZCLDataTypeClusterId } from '../0xe8--cluster-id/encode-z-c-l-data-type-cluster-id.ts';
+import { encodeZCLDataTypeAttributeId } from '../0xe9--attribute-id/encode-z-c-l-data-type-attribute-id.ts';
+import { encodeZCLDataTypeBacnetOid } from '../0xea--bacnet-oid/encode-z-c-l-data-type-bacnet-oid.ts';
+import { encodeZCLDataTypeTimeOfDay } from '../0xe0--time-of-day/encode-z-c-l-data-type-time-of-day.ts';
+import type { ZCLDataTypeTimeOfDay } from '../0xe0--time-of-day/z-c-l-data-type-time-of-day.ts';
+import { encodeZCLDataTypeDate } from '../0xe1--date/encode-z-c-l-data-type-date.ts';
+import type { ZCLDataTypeDate } from '../0xe1--date/z-c-l-data-type-date.ts';
+import { encodeZCLDataTypeUtcTime } from '../0xe2--utc-time/encode-z-c-l-data-type-utc-time.ts';
 import type { ZCLDataTypeArray } from '../0x48--array/z-c-l-data-type-array.ts';
+import type { ZCLDataTypeStructure } from '../0x4c--structure/z-c-l-data-type-structure.ts';
 
 export function encodeZCLDataTypeUnknown(encoder: Encoder, dataType: number, value: unknown): void {
   switch (dataType) {
+    case 0x00:
+      encodeZCLDataTypeNoData(encoder, value as undefined);
+      break;
     case 0x08:
       encodeZCLDataTypeData8(encoder, value as number);
       break;
@@ -157,13 +178,53 @@ export function encodeZCLDataTypeUnknown(encoder: Encoder, dataType: number, val
     case 0x3a:
       encodeZCLDataTypeFloat64(encoder, value as number);
       break;
-    // TODO 0x41 (octstr)
+    case 0x41:
+      encodeZCLDataTypeOctetString(encoder, value as Uint8Array);
+      break;
     case 0x42:
       encodeZCLDataTypeString(encoder, value as string);
       break;
-    // TODO others
+    case 0x43:
+      encodeZCLDataTypeLongOctetString(encoder, value as Uint8Array);
+      break;
+    case 0x44:
+      encodeZCLDataTypeLongString(encoder, value as string);
+      break;
     case 0x48:
       encodeZCLDataTypeArray(encoder, value as ZCLDataTypeArray);
+      break;
+    case 0x4c:
+      encodeZCLDataTypeStructure(encoder, value as ZCLDataTypeStructure);
+      break;
+    case 0x50:
+      encodeZCLDataTypeSet(encoder, value as ZCLDataTypeArray);
+      break;
+    case 0x51:
+      encodeZCLDataTypeBag(encoder, value as ZCLDataTypeArray);
+      break;
+    case 0xe0:
+      encodeZCLDataTypeTimeOfDay(encoder, value as ZCLDataTypeTimeOfDay);
+      break;
+    case 0xe1:
+      encodeZCLDataTypeDate(encoder, value as ZCLDataTypeDate);
+      break;
+    case 0xe2:
+      encodeZCLDataTypeUtcTime(encoder, value as number);
+      break;
+    case 0xe8:
+      encodeZCLDataTypeClusterId(encoder, value as number);
+      break;
+    case 0xe9:
+      encodeZCLDataTypeAttributeId(encoder, value as number);
+      break;
+    case 0xea:
+      encodeZCLDataTypeBacnetOid(encoder, value as number);
+      break;
+    case 0xf0:
+      encodeZCLDataTypeIeeeAddress(encoder, value as bigint | number);
+      break;
+    case 0xf1:
+      encodeZCLDataTypeSecurityKey(encoder, value as Uint8Array);
       break;
     // TODO others
     default:
