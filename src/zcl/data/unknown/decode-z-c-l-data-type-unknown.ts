@@ -167,7 +167,6 @@ export function decodeZCLDataTypeUnknown(decoder: Decoder, dataType: number): un
       return decodeZCLDataTypeIeeeAddress(decoder);
     case 0xf1:
       return decodeZCLDataTypeSecurityKey(decoder);
-    // TODO others
     default:
       throw new Error(`Unsupported data type: 0x${dataType.toString(16).padStart(2, '0')}.`);
   }
