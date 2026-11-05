@@ -2,6 +2,9 @@ import type { ZCLAttributeMapper } from '../../z-c-l-attribute-mapper.ts';
 
 export type StringZCLAttributeMapper = ZCLAttributeMapper<string>;
 
+/**
+ * Passes strings through unchanged, validating the wire value type.
+ */
 export const STRING_ZCL_ATTRIBUTE_MAPPER: StringZCLAttributeMapper = Object.freeze({
   inOut: (value: string): unknown => value,
   outIn: (value: unknown): string => {

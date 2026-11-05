@@ -1,5 +1,10 @@
 import type { ZCLIASZoneStatus } from '../z-c-l-i-a-s-zone-status.ts';
 
+/**
+ * Decodes a map16 wire value into an IAS Zone Status (alarm bits 0-9, bits 10-15 reserved and ignored).
+ *
+ * @inheritDoc 8.2.2.1.1.3 ZoneStatus Attribute
+ */
 export function zclIASZoneStatusFromMap16(input: number): ZCLIASZoneStatus {
   return {
     alarm1: input & 0b0000_0000_0000_0001 ? 'alarmed' : 'not-alarmed',

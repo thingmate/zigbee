@@ -8,6 +8,9 @@ import type { ZCLReadAttributesCommandPayload } from './z-c-l-read-attributes-co
 export type ZCLReadAttributesCommandPayloadMapper =
   ZCLPayloadMapper<ZCLReadAttributesCommandPayload>;
 
+/**
+ * Maps the read attributes command payload to and from the command payload bytes.
+ */
 export const ZCL_READ_ATTRIBUTES_COMMAND_PAYLOAD_MAPPER: ZCLReadAttributesCommandPayloadMapper =
   Object.freeze({
     inOut: (attributes: ZCLReadAttributesCommandPayload): Uint8Array => {

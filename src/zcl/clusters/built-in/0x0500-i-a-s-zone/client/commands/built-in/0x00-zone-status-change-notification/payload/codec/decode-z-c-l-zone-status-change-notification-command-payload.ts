@@ -6,6 +6,12 @@ import { decodeZCLDataTypeUint16 } from '../../../../../../../../../data/0x21--u
 import { zclIASZoneStatusFromMap16 } from '../../../../../../server/attributes/built-in/0x0002-i-a-s-zone-status/payload/codec/zcl-i-a-s-zone-status-from-map16.ts';
 import type { ZCLZoneStatusChangeNotificationCommandPayload } from '../z-c-l-zone-status-change-notification-command-payload.ts';
 
+/**
+ * Decodes the status change notification payload:
+ * map16 zone status, map8 extended status, uint8 zone id, uint16 delay.
+ *
+ * @inheritDoc 8.2.3.1.1 Status Change Notification Command
+ */
 export function decodeZCLZoneStatusChangeNotificationCommandPayload(
   decoder: Decoder,
 ): ZCLZoneStatusChangeNotificationCommandPayload {

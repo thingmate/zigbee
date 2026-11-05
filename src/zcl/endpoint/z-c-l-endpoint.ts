@@ -20,7 +20,17 @@ export interface ZCLEndpointSelectOptions {
   readonly endpoint: number;
 }
 
+/**
+ * A ZCL endpoint bound to a fixed device and endpoint.
+ */
 export class ZCLEndpoint extends CommandAbilities<ZCLEndpointArguments> {
+  /**
+   * Creates a ZCL endpoint bound to a fixed device and endpoint.
+   *
+   * Sent frames are completed with the device and endpoint,
+   * observed frames are filtered to keep only the matching device and endpoint,
+   * and are stripped of them.
+   */
   static select(
     { send, observe }: ZCLEndpointSelectStream,
     { device, endpoint }: ZCLEndpointSelectOptions,

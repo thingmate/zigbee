@@ -8,6 +8,9 @@ import type { ZCLZoneStatusChangeNotificationCommandArguments } from './z-c-l-zo
 export type ZCLZoneStatusChangeNotificationCommandArgumentsMapper =
   ZCLPayloadMapper<ZCLZoneStatusChangeNotificationCommandArguments>;
 
+/**
+ * Maps the command arguments tuple to and from the command payload bytes.
+ */
 export const ZCL_ZONE_STATUS_CHANGE_NOTIFICATION_COMMAND_ARGUMENTS_MAPPER: ZCLZoneStatusChangeNotificationCommandArgumentsMapper =
   Object.freeze({
     inOut: ([payload]: ZCLZoneStatusChangeNotificationCommandArguments): Uint8Array => {

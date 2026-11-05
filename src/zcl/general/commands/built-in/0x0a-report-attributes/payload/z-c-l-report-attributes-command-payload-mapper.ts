@@ -8,6 +8,9 @@ import type { ZCLReportAttributesCommandPayload } from './z-c-l-report-attribute
 export type ZCLReportAttributesCommandPayloadMapper =
   ZCLPayloadMapper<ZCLReportAttributesCommandPayload>;
 
+/**
+ * Maps the report attributes command payload to and from the command payload bytes.
+ */
 export const ZCL_REPORT_ATTRIBUTES_COMMAND_PAYLOAD_MAPPER: ZCLReportAttributesCommandPayloadMapper =
   Object.freeze({
     inOut: (attributes: ZCLReportAttributesCommandPayload): Uint8Array => {

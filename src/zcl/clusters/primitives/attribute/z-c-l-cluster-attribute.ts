@@ -11,6 +11,12 @@ import type { ZCLAttributeMapper } from './mapper/z-c-l-attribute-mapper.ts';
 
 export type ZCLClusterAttributeStream = PrefilteredZCLGeneralCommandStream;
 
+/**
+ * Binds a cluster attribute to a fixed cluster and attribute id.
+ *
+ * `read` and `observe` resolve the attribute value mapped through the given attribute mapper,
+ * `write` is not implemented.
+ */
 export class ZCLClusterAttribute<GValue> extends PropertyAbilities<GValue> {
   constructor(
     stream: ZCLClusterAttributeStream,

@@ -13,6 +13,10 @@ export interface ZCLCommandFrame {
 
 export type ZCLCommandFrameDirection = 'client-to-server' /* 0 */ | 'server-to-client'; /* 1 */
 
+/**
+ * Returns the opposite ZCL command frame direction:
+ * `client-to-server` becomes `server-to-client` and vice-versa.
+ */
 export function getOppositeZCLCommandFrameDirection(
   input: ZCLCommandFrameDirection,
 ): ZCLCommandFrameDirection {

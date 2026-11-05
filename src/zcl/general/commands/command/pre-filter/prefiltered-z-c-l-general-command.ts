@@ -24,6 +24,12 @@ export type PrefilteredZCLGeneralCommandStreamArguments = readonly [
 export type PrefilteredZCLGeneralCommandStream =
   HavingCommandAbilities<PrefilteredZCLGeneralCommandStreamArguments>;
 
+/**
+ * Binds a cluster unspecific (global) command to a fixed direction and command id.
+ *
+ * `send` completes the command frame with the static direction, command and cluster unspecific flag,
+ * `observe` only emits the frames matching the static fields.
+ */
 export class PrefilteredZCLGeneralCommand<GPayload> extends ZCLGeneralCommand<GPayload> {
   constructor(
     { send, observe }: PrefilteredZCLGeneralCommandStream,

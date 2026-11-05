@@ -5,6 +5,10 @@ import {
   type PrefilteredZCLClusterCommandStream,
 } from '../../prefiltered-z-c-l-cluster-command.ts';
 
+/**
+ * A cluster command received on the cluster client side:
+ * frames are matched with the `server-to-client` direction.
+ */
 export class ClientZCLClusterCommand<
   GArguments extends readonly unknown[],
 > extends PrefilteredZCLClusterCommand<GArguments> {

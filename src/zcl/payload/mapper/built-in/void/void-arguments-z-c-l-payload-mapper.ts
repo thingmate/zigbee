@@ -7,6 +7,9 @@ const EMPTY_UINT8_ARRAY: Readonly<Uint8Array> = Object.freeze(new Uint8Array(0))
 
 const EMPTY_ARRAY: VoidArguments = Object.freeze([]);
 
+/**
+ * Payload mapper of the commands without payload: always empty in both directions.
+ */
 export const VOID_ARGUMENTS_ZCL_PAYLOAD_MAPPER: VoidArgumentsZCLPayloadMapper = Object.freeze({
   inOut: (): Readonly<Uint8Array> => EMPTY_UINT8_ARRAY,
   outIn: (): VoidArguments => EMPTY_ARRAY,

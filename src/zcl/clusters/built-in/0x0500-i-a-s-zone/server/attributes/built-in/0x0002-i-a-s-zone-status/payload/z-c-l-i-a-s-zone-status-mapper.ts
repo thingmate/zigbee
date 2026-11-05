@@ -6,6 +6,9 @@ import type { ZCLIASZoneStatus } from './z-c-l-i-a-s-zone-status.ts';
 
 export type ZCLIASZoneStatusMapper = ZCLAttributeMapper<ZCLIASZoneStatus>;
 
+/**
+ * Maps between the IAS Zone Status interface and its map16 wire value.
+ */
 export const ZCL_IAS_ZONE_STATUS_MAPPER: ZCLIASZoneStatusMapper = Object.freeze({
   inOut: zclIASZoneStatusToMap16,
   outIn: zclIASZoneStatusFromMap16,

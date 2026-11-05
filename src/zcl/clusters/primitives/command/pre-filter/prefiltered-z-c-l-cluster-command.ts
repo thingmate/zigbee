@@ -19,6 +19,13 @@ export type PrefilteredZCLClusterCommandStreamArguments = readonly [
 export type PrefilteredZCLClusterCommandStream =
   HavingCommandAbilities<PrefilteredZCLClusterCommandStreamArguments>;
 
+/**
+ * Binds a cluster specific command to a fixed cluster, direction and command id.
+ *
+ * `send` builds the command frame from the given payload mapper,
+ * `observe` only emits the frames matching the static fields, with their payload mapped back
+ * into the command arguments.
+ */
 export class PrefilteredZCLClusterCommand<
   GArguments extends readonly unknown[],
 > extends ZCLClusterCommand<GArguments> {
