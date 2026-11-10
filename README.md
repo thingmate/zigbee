@@ -33,12 +33,18 @@ The library turns raw Zigbee Cluster Library (ZCL) traffic into typed, stream-ba
 - **Commands** expose `send` (send a command with typed arguments) and `observe` (listen for the same
   command being sent on the network).
 
-You bring the transport: anything able to send and observe ZCL command frames.
+On the transport side, **`ZigbeeCoordinator`** bundles the abilities of your Zigbee adapter — the
+ZCL command frame stream (send and observe), the network configuration (channel, PAN ID, network
+key, radio power), and the permit-join action opening or closing the network to new devices — into
+a single object. You bring the adapter: anything able to send and observe ZCL command frames.
 
 ### Concepts
 
 ```
-ZCL frame stream (your transport)
+ZigbeeCoordinator({ config, permitJoin, command })   ← your adapter's abilities
+        │
+        ▼
+ZCL frame stream (coordinator.command)
         │
         ▼
 ZCLEndpoint.select(stream, { device, endpoint })   ← binds a device endpoint
@@ -47,6 +53,8 @@ ZCLEndpoint.select(stream, { device, endpoint })   ← binds a device endpoint
 ZCLTemperatureMeasuredValueAttribute / ZCLOnCommand / …   ← terminal attributes & commands
 ```
 
+- A **`ZigbeeCoordinator`** wraps your adapter's abilities: the network configuration (`config`),
+  the permit-join action (`permitJoin`), and the ZCL command frame stream (`command`).
 - A **ZCL command frame** is one message on the network: device, endpoint, cluster, direction,
   command, payload.
 - A **`ZCLEndpoint`** is the frame stream scoped to one device endpoint.
@@ -55,13 +63,50 @@ ZCLTemperatureMeasuredValueAttribute / ZCLOnCommand / …   ← terminal attribu
 
 ### Usage
 
+#### Creating a coordinator
+
+```ts
+import { ZigbeeCoordinator } from '@thingmate/zigbee';
+
+// You bring the adapter's abilities:
+// - config: read and update the network configuration
+// - permitJoin: open or close the network to new devices
+// - command: send and observe ZCL command frames
+const coordinator = new ZigbeeCoordinator({ config, permitJoin, command });
+```
+
+#### Reading and updating the network configuration
+
+The configuration is one object: the 2.4 GHz channel (11-26), the 16-bit PAN ID, the 64-bit
+extended PAN ID, the 128-bit network key (16 bytes), and the radio transmission power in dBm (1-21).
+
+```ts
+const config = await coordinator.config.read.call(new AbortController().signal);
+console.log('channel:', config.channel);
+
+await coordinator.config.write.call(new AbortController().signal, {
+  ...config,
+  channel: 20,
+});
+```
+
+#### Opening the network to new devices
+
+```ts
+// Permit new devices to join, e.g. while pairing:
+await coordinator.permitJoin.call(new AbortController().signal, true);
+
+// Close the network again:
+await coordinator.permitJoin.call(new AbortController().signal, false);
+```
+
 #### Binding an endpoint
 
 ```ts
 import { ZCLEndpoint } from '@thingmate/zigbee';
 
-// stream: the ZCL command frame stream of your Zigbee transport
-const endpoint = ZCLEndpoint.select(stream, { device: 0x1234, endpoint: 0x01 });
+// coordinator.command: the ZCL command frame stream of your Zigbee transport
+const endpoint = ZCLEndpoint.select(coordinator.command, { device: 0x1234, endpoint: 0x01 });
 ```
 
 Sent frames are completed with the device and endpoint; observed frames are filtered to keep only
@@ -190,11 +235,12 @@ and special wire values; each command documents its arguments.
 
 ### Architecture
 
-The library is layered: ZCL command frames are pre-filtered per cluster/command, payloads are
-encoded and decoded by codecs and payload mappers, and attributes and commands compose these into
-the terminal classes. All internals are documented with JSDoc, including the ZCL specification
-sections they implement. Contributions adding new clusters only need to follow the existing
-one-module-per-file layout.
+The library is layered: the coordinator adapter bundles the transport-side abilities (network
+configuration, permit-join, and the command-frame stream), ZCL command frames are pre-filtered per
+cluster/command, payloads are encoded and decoded by codecs and payload mappers, and attributes and
+commands compose these into the terminal classes. All internals are documented with JSDoc,
+including the ZCL specification sections they implement. Contributions adding new clusters only
+need to follow the existing one-module-per-file layout.
 
 ## 🧾 License
 
