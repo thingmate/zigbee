@@ -46,14 +46,14 @@ import { decodeZCLDataTypeArray } from '../0x48--array/decode-z-c-l-data-type-ar
 import { decodeZCLDataTypeStructure } from '../0x4c--structure/decode-z-c-l-data-type-structure.ts';
 import { decodeZCLDataTypeSet } from '../0x50--set/decode-z-c-l-data-type-set.ts';
 import { decodeZCLDataTypeBag } from '../0x51--bag/decode-z-c-l-data-type-bag.ts';
-import { decodeZCLDataTypeIeeeAddress } from '../0xf0--ieee-address/decode-z-c-l-data-type-ieee-address.ts';
-import { decodeZCLDataTypeSecurityKey } from '../0xf1--security-key/decode-z-c-l-data-type-security-key.ts';
-import { decodeZCLDataTypeClusterId } from '../0xe8--cluster-id/decode-z-c-l-data-type-cluster-id.ts';
-import { decodeZCLDataTypeAttributeId } from '../0xe9--attribute-id/decode-z-c-l-data-type-attribute-id.ts';
-import { decodeZCLDataTypeBacnetOid } from '../0xea--bacnet-oid/decode-z-c-l-data-type-bacnet-oid.ts';
 import { decodeZCLDataTypeTimeOfDay } from '../0xe0--time-of-day/decode-z-c-l-data-type-time-of-day.ts';
 import { decodeZCLDataTypeDate } from '../0xe1--date/decode-z-c-l-data-type-date.ts';
 import { decodeZCLDataTypeUtcTime } from '../0xe2--utc-time/decode-z-c-l-data-type-utc-time.ts';
+import { decodeZCLDataTypeClusterId } from '../0xe8--cluster-id/decode-z-c-l-data-type-cluster-id.ts';
+import { decodeZCLDataTypeAttributeId } from '../0xe9--attribute-id/decode-z-c-l-data-type-attribute-id.ts';
+import { decodeZCLDataTypeBacnetOid } from '../0xea--bacnet-oid/decode-z-c-l-data-type-bacnet-oid.ts';
+import { decodeZCLDataTypeIeeeAddress } from '../0xf0--ieee-address/decode-z-c-l-data-type-ieee-address.ts';
+import { decodeZCLDataTypeSecurityKey } from '../0xf1--security-key/decode-z-c-l-data-type-security-key.ts';
 
 export function decodeZCLDataTypeUnknown(decoder: Decoder, dataType: number): unknown {
   switch (dataType) {

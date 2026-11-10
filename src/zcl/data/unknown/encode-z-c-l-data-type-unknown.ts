@@ -43,21 +43,21 @@ import { encodeZCLDataTypeString } from '../0x42--string/encode-z-c-l-data-type-
 import { encodeZCLDataTypeLongOctetString } from '../0x43--long-octet-string/encode-z-c-l-data-type-long-octet-string.ts';
 import { encodeZCLDataTypeLongString } from '../0x44--long-string/encode-z-c-l-data-type-long-string.ts';
 import { encodeZCLDataTypeArray } from '../0x48--array/encode-z-c-l-data-type-array.ts';
+import type { ZCLDataTypeArray } from '../0x48--array/z-c-l-data-type-array.ts';
 import { encodeZCLDataTypeStructure } from '../0x4c--structure/encode-z-c-l-data-type-structure.ts';
+import type { ZCLDataTypeStructure } from '../0x4c--structure/z-c-l-data-type-structure.ts';
 import { encodeZCLDataTypeSet } from '../0x50--set/encode-z-c-l-data-type-set.ts';
 import { encodeZCLDataTypeBag } from '../0x51--bag/encode-z-c-l-data-type-bag.ts';
-import { encodeZCLDataTypeIeeeAddress } from '../0xf0--ieee-address/encode-z-c-l-data-type-ieee-address.ts';
-import { encodeZCLDataTypeSecurityKey } from '../0xf1--security-key/encode-z-c-l-data-type-security-key.ts';
-import { encodeZCLDataTypeClusterId } from '../0xe8--cluster-id/encode-z-c-l-data-type-cluster-id.ts';
-import { encodeZCLDataTypeAttributeId } from '../0xe9--attribute-id/encode-z-c-l-data-type-attribute-id.ts';
-import { encodeZCLDataTypeBacnetOid } from '../0xea--bacnet-oid/encode-z-c-l-data-type-bacnet-oid.ts';
 import { encodeZCLDataTypeTimeOfDay } from '../0xe0--time-of-day/encode-z-c-l-data-type-time-of-day.ts';
 import type { ZCLDataTypeTimeOfDay } from '../0xe0--time-of-day/z-c-l-data-type-time-of-day.ts';
 import { encodeZCLDataTypeDate } from '../0xe1--date/encode-z-c-l-data-type-date.ts';
 import type { ZCLDataTypeDate } from '../0xe1--date/z-c-l-data-type-date.ts';
 import { encodeZCLDataTypeUtcTime } from '../0xe2--utc-time/encode-z-c-l-data-type-utc-time.ts';
-import type { ZCLDataTypeArray } from '../0x48--array/z-c-l-data-type-array.ts';
-import type { ZCLDataTypeStructure } from '../0x4c--structure/z-c-l-data-type-structure.ts';
+import { encodeZCLDataTypeClusterId } from '../0xe8--cluster-id/encode-z-c-l-data-type-cluster-id.ts';
+import { encodeZCLDataTypeAttributeId } from '../0xe9--attribute-id/encode-z-c-l-data-type-attribute-id.ts';
+import { encodeZCLDataTypeBacnetOid } from '../0xea--bacnet-oid/encode-z-c-l-data-type-bacnet-oid.ts';
+import { encodeZCLDataTypeIeeeAddress } from '../0xf0--ieee-address/encode-z-c-l-data-type-ieee-address.ts';
+import { encodeZCLDataTypeSecurityKey } from '../0xf1--security-key/encode-z-c-l-data-type-security-key.ts';
 
 export function encodeZCLDataTypeUnknown(encoder: Encoder, dataType: number, value: unknown): void {
   switch (dataType) {

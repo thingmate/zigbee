@@ -1,8 +1,8 @@
 import { Encoder } from '@xstd/codec';
 import { describe, expect, test } from 'vitest';
-import type { ZCLDataTypeStructureField } from './z-c-l-data-type-structure.ts';
 import { decodeZCLDataTypeStructure } from './decode-z-c-l-data-type-structure.ts';
 import { encodeZCLDataTypeStructure } from './encode-z-c-l-data-type-structure.ts';
+import type { ZCLDataTypeStructureField } from './z-c-l-data-type-structure.ts';
 
 describe('encodeZCLDataTypeStructure', (): void => {
   test('encodes a structure.', (): void => {

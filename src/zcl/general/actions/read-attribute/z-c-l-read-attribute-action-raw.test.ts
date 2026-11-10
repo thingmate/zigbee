@@ -7,8 +7,8 @@ import type {
   PrefilteredZCLGeneralCommandStream,
   PrefilteredZCLGeneralCommandStreamArguments,
 } from '../../commands/command/pre-filter/prefiltered-z-c-l-general-command.ts';
-import type { ZCLReadAttributesActionResult } from '../read-attributes/z-c-l-read-attributes-action-result.ts';
 import type { ZCLReadAttributesActionArguments } from '../read-attributes/z-c-l-read-attributes-action-raw.ts';
+import type { ZCLReadAttributesActionResult } from '../read-attributes/z-c-l-read-attributes-action-result.ts';
 import { ZCLReadAttributesAction } from '../read-attributes/z-c-l-read-attributes-action.ts';
 import { ZCLReadAttributeActionRaw } from './z-c-l-read-attribute-action-raw.ts';
 

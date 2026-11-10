@@ -9,8 +9,8 @@ import type {
   PrefilteredZCLGeneralCommandStream,
   PrefilteredZCLGeneralCommandStreamArguments,
 } from '../../commands/command/pre-filter/prefiltered-z-c-l-general-command.ts';
-import type { ZCLReadAttributesActionResult } from './z-c-l-read-attributes-action-result.ts';
 import { ZCLReadAttributesActionRaw } from './z-c-l-read-attributes-action-raw.ts';
+import type { ZCLReadAttributesActionResult } from './z-c-l-read-attributes-action-result.ts';
 
 interface ZCLGeneralCommandStreamMock {
   readonly stream: PrefilteredZCLGeneralCommandStream;
