@@ -1,6 +1,6 @@
 import type { ZigbeeCoordinatorConfigAbilities } from './abilities/config/having-zigbee-coordinator-config-ability.ts';
 import type { ZigbeeCommandFrameAbilities } from './abilities/frame/having-zigbee-command-frame-ability.ts';
-import type { ZigbeePermitJointAction } from './abilities/permit-join/having-zigbee-permit-joint-ability.ts';
+import type { ZigbeePermitJoinAction } from './abilities/permit-join/having-zigbee-permit-join-ability.ts';
 import type { HavingZigbeeCoordinatorAbilities } from './having-zigbee-coordinator-abilities.ts';
 
 /**
@@ -12,7 +12,7 @@ import type { HavingZigbeeCoordinatorAbilities } from './having-zigbee-coordinat
  */
 export class ZigbeeCoordinator implements HavingZigbeeCoordinatorAbilities {
   readonly #config: ZigbeeCoordinatorConfigAbilities;
-  readonly #permitJoin: ZigbeePermitJointAction;
+  readonly #permitJoin: ZigbeePermitJoinAction;
   readonly #command: ZigbeeCommandFrameAbilities;
 
   /**
@@ -36,7 +36,7 @@ export class ZigbeeCoordinator implements HavingZigbeeCoordinatorAbilities {
    * Action opening the network to new devices for a given duration (in seconds).
    * A duration of `0` closes the network immediately.
    */
-  get permitJoin(): ZigbeePermitJointAction {
+  get permitJoin(): ZigbeePermitJoinAction {
     return this.#permitJoin;
   }
 

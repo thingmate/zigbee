@@ -1,20 +1,19 @@
+import type { HavingCommandAbilities } from '@thingmate/abilities';
 import { ObserveAbility } from '@thingmate/abilities';
 import { ListenerResource } from '@xstd/listener-resource';
 import { NONE, type None } from '@xstd/none';
 import { ObservableAsyncFunction } from '@xstd/observable-async-function';
 import type { ZCLReportAttributesCommandPayload } from '../../commands/built-in/0x0a-report-attributes/payload/z-c-l-report-attributes-command-payload.ts';
-import { ZCLReportAttributesCommand } from '../../commands/built-in/0x0a-report-attributes/z-c-l-report-attributes-command.ts';
 import type {
   ZCLGeneralCommandArguments,
   ZCLGeneralCommandOptions,
 } from '../../commands/command/z-c-l-general-command.ts';
 
 export interface ZCLReceiveAttributeObserverRawOptions {
-  readonly reportAttributesCommand: ZCLReportAttributesCommand;
+  readonly reportAttributesCommand: HavingCommandAbilities<
+    ZCLGeneralCommandArguments<ZCLReportAttributesCommandPayload>
+  >;
 }
-
-// export type ZCLReceiveAttributeObserverCommandOptions =
-//   ZCLGeneralCommandOptions<number /* attribute id */>;
 
 export interface ZCLReceiveAttributeObserverCommandOptions extends Omit<
   ZCLGeneralCommandOptions<void>,

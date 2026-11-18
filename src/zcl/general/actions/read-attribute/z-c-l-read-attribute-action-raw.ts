@@ -3,11 +3,14 @@ import { ZCLStatusError } from '../../../status/z-c-l-status-error.ts';
 import { isZCLReadAttributesStatusRecordFieldSuccess } from '../../commands/built-in/0x01-read-attributes-response/status-record-field/success/is-z-c-l-read-attributes-status-record-field-success.ts';
 import type { ZCLReadAttributesStatusRecordField } from '../../commands/built-in/0x01-read-attributes-response/status-record-field/z-c-l-read-attributes-status-record-field.ts';
 import type { ZCLGeneralCommandOptions } from '../../commands/command/z-c-l-general-command.ts';
+import type { ZCLReadAttributesActionArguments } from '../read-attributes/z-c-l-read-attributes-action-raw.ts';
 import type { ZCLReadAttributesActionResult } from '../read-attributes/z-c-l-read-attributes-action-result.ts';
-import type { ZCLReadAttributesAction } from '../read-attributes/z-c-l-read-attributes-action.ts';
 
 export interface ZCLReadAttributeActionRawOptions {
-  readonly readAttributesAction: ZCLReadAttributesAction;
+  readonly readAttributesAction: AsyncFunction<
+    ZCLReadAttributesActionArguments,
+    ZCLReadAttributesActionResult
+  >;
 }
 
 export interface ZCLReadAttributeActionCommandOptions extends Omit<

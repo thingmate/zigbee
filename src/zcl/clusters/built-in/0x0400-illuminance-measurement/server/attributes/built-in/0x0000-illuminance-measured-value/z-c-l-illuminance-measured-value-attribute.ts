@@ -1,0 +1,15 @@
+import type { ZCLClusterAttributeStream } from '../../../../../../primitives/attribute/z-c-l-cluster-attribute.ts';
+import { IlluminanceMeasurementClusterZCLClusterAttribute } from '../../attribute/illuminance-measurement-cluster-z-c-l-cluster-attribute.ts';
+import { ILLUMINANCE_MEASURED_VALUE_ZCL_ATTRIBUTE_MAPPER } from '../../mapper/illuminance-measured-value-z-c-l-attribute-mapper.ts';
+
+/**
+ * @type {number}
+ * @unit: lx (Lux)
+ *
+ * The special values 0x0000 (too low to measure) and 0xffff (invalid value) pass through unchanged.
+ */
+export class ZCLIlluminanceMeasuredValueAttribute extends IlluminanceMeasurementClusterZCLClusterAttribute<number> {
+  constructor(stream: ZCLClusterAttributeStream) {
+    super(stream, 0x0000, ILLUMINANCE_MEASURED_VALUE_ZCL_ATTRIBUTE_MAPPER);
+  }
+}

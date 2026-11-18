@@ -5,7 +5,7 @@ import { describe, expect, test } from 'vitest';
 import type { ZCLCommandFrame } from '../zcl/command-frame/z-c-l-command-frame.ts';
 import type { ZigbeeCoordinatorConfig } from './abilities/config/zigbee-coordinator-config.ts';
 import type { HavingZigbeeCommandFrameAbilityArguments } from './abilities/frame/having-zigbee-command-frame-ability.ts';
-import type { ZigbeePermitJointActionArguments } from './abilities/permit-join/having-zigbee-permit-joint-ability.ts';
+import type { ZigbeePermitJoinActionArguments } from './abilities/permit-join/having-zigbee-permit-join-ability.ts';
 import type { HavingZigbeeCoordinatorAbilities } from './having-zigbee-coordinator-abilities.ts';
 import { ZigbeeCoordinator } from './zigbee-coordinator.ts';
 
@@ -79,7 +79,7 @@ function createZigbeeCoordinatorAbilitiesMock(): ZigbeeCoordinatorAbilitiesMock 
           },
         ),
       },
-      permitJoin: new AsyncFunction<ZigbeePermitJointActionArguments, void>(
+      permitJoin: new AsyncFunction<ZigbeePermitJoinActionArguments, void>(
         async (_signal: AbortSignal, duration: number): Promise<void> => {
           permitJoinCalls.push(duration);
         },

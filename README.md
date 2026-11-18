@@ -12,7 +12,7 @@
 
 ## @thingmate/zigbee
 
-Zigbee adapters: adapters between Zigbee commands and Entities.
+Zigbee adapters: typed, stream-based Zigbee Cluster Library (ZCL) adapters.
 
 ## 📦 Installation
 
@@ -216,6 +216,13 @@ try {
 }
 ```
 
+Some numeric attributes reject the invalid wire values defined by the ZCL specification with a
+plain `Error` (not a `ZCLStatusError`): `ZCLTemperatureMeasuredValueAttribute` (`0x8000`),
+`ZCLMainsVoltageAttribute` (`0xffff`), `ZCLBatteryVoltageAttribute` (`0xff`),
+`ZCLRelativeHumidityMeasuredValueAttribute` (`0xffff`), and
+`ZCLBatteryPercentageRemainingAttribute` (`0xff`) — a `read` rejects and an `observe` stops when
+the device reports such a value.
+
 ### Supported clusters
 
 | Cluster                                | Attributes                                                                                                                                                                                                                                            | Commands                                            |
@@ -231,16 +238,18 @@ try {
 
 Some numeric attributes carry special wire values which pass through unchanged: the illuminance
 min/max measured value attributes report `0x0000` (too low to measure) and `0xffff` (invalid value)
-as-is, signaling an undefined measured range. Each attribute's class documents its unit, scaling,
-and special wire values; each command documents its arguments.
+as-is, signaling an undefined measured range.
+
+The library is not complete yet and grows incrementally, cluster by cluster: missing attributes
+and commands are tracked by the co-located `TODO.md` files, and attributes are read-only for now
+(`write` rejects with a `Not implemented.` error).
 
 ### Architecture
 
 The library is layered: the coordinator adapter bundles the transport-side abilities (network
 configuration, permit-join, and the command-frame stream), ZCL command frames are pre-filtered per
 cluster/command, payloads are encoded and decoded by codecs and payload mappers, and attributes and
-commands compose these into the terminal classes. All internals are documented with JSDoc,
-including the ZCL specification sections they implement. Contributions adding new clusters only
+commands compose these into the terminal classes. Contributions adding new clusters only
 need to follow the existing one-module-per-file layout.
 
 ## 🧾 License

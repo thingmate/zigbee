@@ -4,6 +4,7 @@ import { decodeZCLDataTypeMap16 } from '../../../../../../../../../data/0x19--ma
 import { decodeZCLDataTypeUint8 } from '../../../../../../../../../data/0x20--uint8/decode-z-c-l-data-type-uint8.ts';
 import { decodeZCLDataTypeUint16 } from '../../../../../../../../../data/0x21--uint16/decode-z-c-l-data-type-uint16.ts';
 import { zclIASZoneStatusFromMap16 } from '../../../../../../server/attributes/built-in/0x0002-i-a-s-zone-status/payload/codec/zcl-i-a-s-zone-status-from-map16.ts';
+import type { ZCLIASZoneStatus } from '../../../../../../server/attributes/built-in/0x0002-i-a-s-zone-status/payload/z-c-l-i-a-s-zone-status.ts';
 import type { ZCLZoneStatusChangeNotificationCommandPayload } from '../z-c-l-zone-status-change-notification-command-payload.ts';
 
 /**
@@ -15,9 +16,14 @@ import type { ZCLZoneStatusChangeNotificationCommandPayload } from '../z-c-l-zon
 export function decodeZCLZoneStatusChangeNotificationCommandPayload(
   decoder: Decoder,
 ): ZCLZoneStatusChangeNotificationCommandPayload {
+  const zoneStatus: ZCLIASZoneStatus = zclIASZoneStatusFromMap16(decodeZCLDataTypeMap16(decoder));
+  const extendedStatus: number = decodeZCLDataTypeMap8(decoder);
+  if (extendedStatus !== 0) {
+    throw new Error(`Invalid extended status: 0x${extendedStatus.toString(16).padStart(2, '0')}.`);
+  }
   return {
-    zoneStatus: zclIASZoneStatusFromMap16(decodeZCLDataTypeMap16(decoder)),
-    extendedStatus: decodeZCLDataTypeMap8(decoder) as 0, // reserved
+    zoneStatus,
+    extendedStatus, // validated above: narrowed to the reserved 0 value
     zoneId: decodeZCLDataTypeUint8(decoder),
     delay: decodeZCLDataTypeUint16(decoder),
   };

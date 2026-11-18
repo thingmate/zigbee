@@ -1,12 +1,11 @@
+import type { HavingCommandAbilities } from '@thingmate/abilities';
 import { abortify, sleep } from '@xstd/abortable';
 import { AsyncFunction, type AsyncFunctionLike } from '@xstd/async-function';
 import { block } from '@xstd/block';
 import { NONE, type None } from '@xstd/none';
 import type { ZCLReadAttributesCommandPayload } from '../../commands/built-in/0x00-read-attributes/payload/z-c-l-read-attributes-command-payload.ts';
-import { ZCLReadAttributesCommand } from '../../commands/built-in/0x00-read-attributes/z-c-l-read-attributes-command.ts';
 import type { ZCLReadAttributesResponseCommandPayload } from '../../commands/built-in/0x01-read-attributes-response/payload/z-c-l-read-attributes-response-command-payload.ts';
 import type { ZCLReadAttributesStatusRecordField } from '../../commands/built-in/0x01-read-attributes-response/status-record-field/z-c-l-read-attributes-status-record-field.ts';
-import { ZCLReadAttributesResponseCommand } from '../../commands/built-in/0x01-read-attributes-response/z-c-l-read-attributes-response-command.ts';
 import type {
   ZCLGeneralCommandArguments,
   ZCLGeneralCommandOptions,
@@ -14,14 +13,22 @@ import type {
 import type { ZCLReadAttributesActionResult } from './z-c-l-read-attributes-action-result.ts';
 
 export interface ZCLReadAttributesActionRawOptions {
-  readonly readAttributesCommand: ZCLReadAttributesCommand;
-  readonly readAttributesResponseCommand: ZCLReadAttributesResponseCommand;
+  readonly readAttributesCommand: HavingCommandAbilities<
+    ZCLGeneralCommandArguments<ZCLReadAttributesCommandPayload>
+  >;
+  readonly readAttributesResponseCommand: HavingCommandAbilities<
+    ZCLGeneralCommandArguments<ZCLReadAttributesResponseCommandPayload>
+  >;
   /**
    * Time window, in milliseconds, during which concurrent calls targeting the same cluster
    * are accumulated and grouped into a single request.
    *
    * The first call opens the window; calls arriving during it are merged into the same request.
    * Calls arriving while a request is in-flight start a new window.
+   *
+   * Requests targeting the same cluster are serialized: a request is only sent once the previous
+   * request on the same cluster completed, and while a request is in-flight, its response listener
+   * is the only one registered for the cluster.
    *
    * Set to `0` to disable grouping.
    */
@@ -116,6 +123,34 @@ export class ZCLReadAttributesActionRaw extends AsyncFunction<
         ),
       });
 
+    const inFlightByCluster: Map<number /* cluster */, Promise<unknown>> = new Map<
+      number /* cluster */,
+      Promise<unknown>
+    >();
+
+    /**
+     * Starts the given request once the previous in-flight request on the same cluster completed,
+     * keeping a single active read-attributes response listener per cluster at any time.
+     */
+    const enqueueRequest = (
+      cluster: number,
+      startRequest: () => Promise<ZCLReadAttributesActionResult>,
+    ): Promise<ZCLReadAttributesActionResult> => {
+      const previousRequest: Promise<unknown> | undefined = inFlightByCluster.get(cluster);
+      const request: Promise<ZCLReadAttributesActionResult> = (previousRequest ?? Promise.resolve())
+        .catch((): void => {})
+        .then(startRequest);
+      inFlightByCluster.set(cluster, request);
+      request
+        .finally((): void => {
+          if (inFlightByCluster.get(cluster) === request) {
+            inFlightByCluster.delete(cluster);
+          }
+        })
+        .catch((): void => {}); // the caller handles the request rejection; this settles the cleanup chain
+      return request;
+    };
+
     let input: AsyncFunctionLike<ZCLReadAttributesActionArguments, ZCLReadAttributesActionResult> =
       action;
 
@@ -131,6 +166,10 @@ export class ZCLReadAttributesActionRaw extends AsyncFunction<
       ): Promise<ZCLReadAttributesActionResult> => {
         signal.throwIfAborted();
 
+        if (attributes.length === 0) {
+          throw new Error('The attributes list must not be empty.');
+        }
+
         let batch: ReadAttributesBatch;
 
         const existingBatch: ReadAttributesBatch | undefined = batchByCluster.get(cluster);
@@ -143,15 +182,19 @@ export class ZCLReadAttributesActionRaw extends AsyncFunction<
           const promise: Promise<ZCLReadAttributesActionResult> = block(
             async (): Promise<ZCLReadAttributesActionResult> => {
               await sleep(debounceMs, { signal: controller.signal });
-              batchByCluster.delete(cluster);
-              return action
-                .call(controller.signal, {
-                  cluster,
-                  attributes: Array.from(attributeIds),
-                })
-                .finally((): void => {
-                  controller.abort(); // releases the waiter signals' listeners
-                });
+              if (batchByCluster.get(cluster) === batch) {
+                batchByCluster.delete(cluster);
+              }
+              return enqueueRequest(cluster, (): Promise<ZCLReadAttributesActionResult> => {
+                return action
+                  .call(controller.signal, {
+                    cluster,
+                    attributes: Array.from(attributeIds),
+                  })
+                  .finally((): void => {
+                    controller.abort(); // releases the waiter signals' listeners
+                  });
+              });
             },
           );
 
@@ -172,7 +215,9 @@ export class ZCLReadAttributesActionRaw extends AsyncFunction<
             batch.waiterSignals.delete(signal);
 
             if (batch.waiterSignals.size === 0) {
-              batchByCluster.delete(cluster);
+              if (batchByCluster.get(cluster) === batch) {
+                batchByCluster.delete(cluster);
+              }
               batch.controller.abort(signal.reason);
             }
           },
@@ -205,6 +250,24 @@ export class ZCLReadAttributesActionRaw extends AsyncFunction<
 
           return attributeStatusRecordField;
         });
+      };
+    } else {
+      input = async (
+        signal: AbortSignal,
+        { cluster, attributes }: ZCLReadAttributesActionCommandOptions,
+      ): Promise<ZCLReadAttributesActionResult> => {
+        signal.throwIfAborted();
+
+        if (attributes.length === 0) {
+          throw new Error('The attributes list must not be empty.');
+        }
+
+        return abortify(
+          enqueueRequest(cluster, (): Promise<ZCLReadAttributesActionResult> => {
+            return action.call(signal, { cluster, attributes });
+          }),
+          { signal },
+        );
       };
     }
 
