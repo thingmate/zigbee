@@ -27,8 +27,8 @@ export interface ZCLReadAttributesActionRawOptions {
    * Calls arriving while a request is in-flight start a new window.
    *
    * Requests targeting the same cluster are serialized: a request is only sent once the previous
-   * request on the same cluster completed, so that a response can never complete another request
-   * than its own.
+   * request on the same cluster completed, and while a request is in-flight, its response listener
+   * is the only one registered for the cluster.
    *
    * Set to `0` to disable grouping.
    */
@@ -130,8 +130,7 @@ export class ZCLReadAttributesActionRaw extends AsyncFunction<
 
     /**
      * Starts the given request once the previous in-flight request on the same cluster completed,
-     * keeping a single active read-attributes response listener per cluster: a response can then
-     * never complete another request than its own.
+     * keeping a single active read-attributes response listener per cluster at any time.
      */
     const enqueueRequest = (
       cluster: number,
