@@ -7,7 +7,7 @@ import { IASZoneClusterZCLClusterAttribute } from '../../attribute/i-a-s-zone-cl
  */
 export class ZCLIASZoneTypeAttribute extends IASZoneClusterZCLClusterAttribute<ZCLIASZoneType> {
   constructor(stream: ZCLClusterAttributeStream) {
-    super(stream, 0x0001, IAS_ZONE_STATE_ZCL_ATTRIBUTE_MAPPER);
+    super(stream, 0x0001, IAS_ZONE_TYPE_ZCL_ATTRIBUTE_MAPPER);
   }
 }
 
@@ -30,7 +30,7 @@ export type ZCLIASZoneType =
   // 0x8000-0xfffe manufacturer specific types
   | 'invalid';
 
-const IAS_ZONE_STATE_ZCL_ATTRIBUTE_MAPPER = enumZCLAttributeMapper<ZCLIASZoneType>([
+const IAS_ZONE_TYPE_ZCL_ATTRIBUTE_MAPPER = enumZCLAttributeMapper<ZCLIASZoneType>([
   [0x0000, 'standard-cie'],
   [0x000d, 'motion-sensor'],
   [0x0015, 'contact-switch'],
