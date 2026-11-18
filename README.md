@@ -12,7 +12,7 @@
 
 ## @thingmate/zigbee
 
-Zigbee adapters: adapters between Zigbee commands and Entities.
+Zigbee adapters: typed, stream-based Zigbee Cluster Library (ZCL) adapters.
 
 ## 📦 Installation
 
