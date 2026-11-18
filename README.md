@@ -240,6 +240,10 @@ Some numeric attributes carry special wire values which pass through unchanged: 
 min/max measured value attributes report `0x0000` (too low to measure) and `0xffff` (invalid value)
 as-is, signaling an undefined measured range.
 
+The library is not complete yet and grows incrementally, cluster by cluster: missing attributes
+and commands are tracked by the co-located `TODO.md` files, and attributes are read-only for now
+(`write` rejects with a `Not implemented.` error).
+
 ### Architecture
 
 The library is layered: the coordinator adapter bundles the transport-side abilities (network
