@@ -89,6 +89,8 @@ const SUCCESS_RECORD_0: readonly number[] = [0x00, 0x00, 0x00, 0x10, 0x01];
 
 const SUCCESS_RECORD_1: readonly number[] = [0x01, 0x00, 0x00, 0x20, 0x2a];
 
+const SUCCESS_RECORD_2: readonly number[] = [0x02, 0x00, 0x00, 0x10, 0x01];
+
 const SUCCESS_RECORD_0_AND_1: readonly number[] = [...SUCCESS_RECORD_0, ...SUCCESS_RECORD_1];
 
 function createZCLReadAttributesActionRaw(debounceMs: number): {
@@ -193,6 +195,64 @@ describe('ZCLReadAttributesActionRaw', (): void => {
 
     await rejection1;
     expect(await promise2).toEqual([{ id: 0x0001, status: 0x00, type: 0x20, value: 0x2a }]);
+  });
+
+  test("does not delete a newer batch when an older in-flight batch's last waiter aborts.", async (): Promise<void> => {
+    const { action, mock } = createZCLReadAttributesActionRaw(10);
+
+    const controller1: AbortController = new AbortController();
+    const promise1: Promise<ZCLReadAttributesActionResult> = action.call(controller1.signal, {
+      cluster: 0x0006,
+      attributes: [0x0000],
+    });
+    const rejection1: Promise<void> = expect(promise1).rejects.toThrow();
+
+    await wait(30); // batch 1's window is over: its request is in-flight
+
+    const promise2: Promise<ZCLReadAttributesActionResult> = action.call(
+      new AbortController().signal,
+      { cluster: 0x0006, attributes: [0x0001] },
+    );
+
+    await wait(5); // batch 2 is accumulating
+
+    controller1.abort();
+
+    const promise3: Promise<ZCLReadAttributesActionResult> = action.call(
+      new AbortController().signal,
+      { cluster: 0x0006, attributes: [0x0002] },
+    );
+
+    await wait(30);
+
+    expect(mock.sent).toEqual([
+      [
+        {
+          cluster: 0x0006,
+          payload: new Uint8Array([0x00, 0x00]),
+          clusterSpecific: false,
+          direction: 'client-to-server',
+          command: 0x00,
+        },
+      ],
+      [
+        {
+          cluster: 0x0006,
+          payload: new Uint8Array([0x01, 0x00, 0x02, 0x00]),
+          clusterSpecific: false,
+          direction: 'client-to-server',
+          command: 0x00,
+        },
+      ],
+    ]);
+
+    mock.emit(
+      createResponseCommandFrame(new Uint8Array([...SUCCESS_RECORD_1, ...SUCCESS_RECORD_2])),
+    );
+
+    await rejection1;
+    expect(await promise2).toEqual([{ id: 0x0001, status: 0x00, type: 0x20, value: 0x2a }]);
+    expect(await promise3).toEqual([{ id: 0x0002, status: 0x00, type: 0x10, value: true }]);
   });
 
   test('throws when an attribute is missing from the shared result.', async (): Promise<void> => {

@@ -143,7 +143,9 @@ export class ZCLReadAttributesActionRaw extends AsyncFunction<
           const promise: Promise<ZCLReadAttributesActionResult> = block(
             async (): Promise<ZCLReadAttributesActionResult> => {
               await sleep(debounceMs, { signal: controller.signal });
-              batchByCluster.delete(cluster);
+              if (batchByCluster.get(cluster) === batch) {
+                batchByCluster.delete(cluster);
+              }
               return action
                 .call(controller.signal, {
                   cluster,
@@ -172,7 +174,9 @@ export class ZCLReadAttributesActionRaw extends AsyncFunction<
             batch.waiterSignals.delete(signal);
 
             if (batch.waiterSignals.size === 0) {
-              batchByCluster.delete(cluster);
+              if (batchByCluster.get(cluster) === batch) {
+                batchByCluster.delete(cluster);
+              }
               batch.controller.abort(signal.reason);
             }
           },
