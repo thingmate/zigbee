@@ -35,7 +35,8 @@ The library turns raw Zigbee Cluster Library (ZCL) traffic into typed, stream-ba
 
 On the transport side, **`ZigbeeCoordinator`** bundles the abilities of your Zigbee adapter — the
 ZCL command frame stream (send and observe), the network configuration (channel, PAN ID, network
-key, radio power), and the permit-join action opening or closing the network to new devices — into
+key, radio power), and the permit-join action opening the network to new devices for a given
+duration — into
 a single object. You bring the adapter: anything able to send and observe ZCL command frames.
 
 ### Concepts
@@ -70,7 +71,7 @@ import { ZigbeeCoordinator } from '@thingmate/zigbee';
 
 // You bring the adapter's abilities:
 // - config: read and update the network configuration
-// - permitJoin: open or close the network to new devices
+// - permitJoin: open the network to new devices for a given duration (in seconds); 0 closes it
 // - command: send and observe ZCL command frames
 const coordinator = new ZigbeeCoordinator({ config, permitJoin, command });
 ```
@@ -93,11 +94,11 @@ await coordinator.config.write.call(new AbortController().signal, {
 #### Opening the network to new devices
 
 ```ts
-// Permit new devices to join, e.g. while pairing:
-await coordinator.permitJoin.call(new AbortController().signal, true);
+// Permit new devices to join for the next 60 seconds, e.g. while pairing:
+await coordinator.permitJoin.call(new AbortController().signal, 60);
 
-// Close the network again:
-await coordinator.permitJoin.call(new AbortController().signal, false);
+// A duration of 0 closes the network again immediately:
+await coordinator.permitJoin.call(new AbortController().signal, 0);
 ```
 
 #### Binding an endpoint

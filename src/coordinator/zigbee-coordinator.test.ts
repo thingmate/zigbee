@@ -2,7 +2,7 @@ import { AsyncFunction } from '@xstd/async-function';
 import { ListenerResource } from '@xstd/listener-resource';
 import { ObservableAsyncFunction } from '@xstd/observable-async-function';
 import { describe, expect, test } from 'vitest';
-import type { ZCLCommandFrame } from '../command-frame/z-c-l-command-frame.ts';
+import type { ZCLCommandFrame } from '../zcl/command-frame/z-c-l-command-frame.ts';
 import type { ZigbeeCoordinatorConfig } from './abilities/config/zigbee-coordinator-config.ts';
 import type { HavingZigbeeCommandFrameAbilityArguments } from './abilities/frame/having-zigbee-command-frame-ability.ts';
 import type { ZigbeePermitJointActionArguments } from './abilities/permit-join/having-zigbee-permit-joint-ability.ts';
@@ -43,14 +43,14 @@ interface ZigbeeCoordinatorAbilitiesMock {
   readonly abilities: HavingZigbeeCoordinatorAbilities;
   readonly configReads: ZigbeeCoordinatorConfig[];
   readonly configWrites: ZigbeeCoordinatorConfig[];
-  readonly permitJoinCalls: boolean[];
+  readonly permitJoinCalls: number[];
   readonly sentFrames: ZCLCommandFrame[];
 }
 
 function createZigbeeCoordinatorAbilitiesMock(): ZigbeeCoordinatorAbilitiesMock {
   const configReads: ZigbeeCoordinatorConfig[] = [];
   const configWrites: ZigbeeCoordinatorConfig[] = [];
-  const permitJoinCalls: boolean[] = [];
+  const permitJoinCalls: number[] = [];
   const sentFrames: ZCLCommandFrame[] = [];
 
   return {
@@ -80,8 +80,8 @@ function createZigbeeCoordinatorAbilitiesMock(): ZigbeeCoordinatorAbilitiesMock 
         ),
       },
       permitJoin: new AsyncFunction<ZigbeePermitJointActionArguments, void>(
-        async (_signal: AbortSignal, enable: boolean): Promise<void> => {
-          permitJoinCalls.push(enable);
+        async (_signal: AbortSignal, duration: number): Promise<void> => {
+          permitJoinCalls.push(duration);
         },
       ),
       command: {
@@ -124,14 +124,14 @@ describe('ZigbeeCoordinator', (): void => {
     expect(mock.configWrites).toEqual([UPDATED_CONFIG]);
   });
 
-  test('opens and closes the network through the permit-join action.', async (): Promise<void> => {
+  test('opens the network to new devices for a duration through the permit-join action.', async (): Promise<void> => {
     const mock: ZigbeeCoordinatorAbilitiesMock = createZigbeeCoordinatorAbilitiesMock();
     const coordinator: ZigbeeCoordinator = new ZigbeeCoordinator(mock.abilities);
 
-    await coordinator.permitJoin.call(new AbortController().signal, true);
-    await coordinator.permitJoin.call(new AbortController().signal, false);
+    await coordinator.permitJoin.call(new AbortController().signal, 60);
+    await coordinator.permitJoin.call(new AbortController().signal, 0);
 
-    expect(mock.permitJoinCalls).toEqual([true, false]);
+    expect(mock.permitJoinCalls).toEqual([60, 0]);
   });
 
   test('sends ZCL command frames through the command abilities.', async (): Promise<void> => {
