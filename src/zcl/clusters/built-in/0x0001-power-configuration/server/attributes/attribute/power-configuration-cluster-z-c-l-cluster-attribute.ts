@@ -4,7 +4,9 @@ import {
   type ZCLClusterAttributeStream,
 } from '../../../../../primitives/attribute/z-c-l-cluster-attribute.ts';
 
-export class PowerConfigurationClusterZCLClusterAttribute<GValue> extends ZCLClusterAttribute<GValue> {
+export class PowerConfigurationClusterZCLClusterAttribute<
+  GValue,
+> extends ZCLClusterAttribute<GValue> {
   constructor(
     stream: ZCLClusterAttributeStream,
     staticAttributeId: number,
