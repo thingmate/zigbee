@@ -110,7 +110,7 @@ export function encodeZCLDataTypeUnknown(encoder: Encoder, dataType: number, val
       encodeZCLDataTypeMap48(encoder, value as number);
       break;
     case 0x1e:
-      encodeZCLDataTypeMap56(encoder, value as number);
+      encodeZCLDataTypeMap56(encoder, value as bigint | number);
       break;
     case 0x1f:
       encodeZCLDataTypeMap64(encoder, value as number);
@@ -134,7 +134,7 @@ export function encodeZCLDataTypeUnknown(encoder: Encoder, dataType: number, val
       encodeZCLDataTypeUint48(encoder, value as number);
       break;
     case 0x26:
-      encodeZCLDataTypeUint56(encoder, value as number);
+      encodeZCLDataTypeUint56(encoder, value as bigint | number);
       break;
     case 0x27:
       encodeZCLDataTypeUint64(encoder, value as bigint | number);
@@ -158,7 +158,7 @@ export function encodeZCLDataTypeUnknown(encoder: Encoder, dataType: number, val
       encodeZCLDataTypeInt48(encoder, value as number);
       break;
     case 0x2e:
-      encodeZCLDataTypeInt56(encoder, value as bigint);
+      encodeZCLDataTypeInt56(encoder, value as bigint | number);
       break;
     case 0x2f:
       encodeZCLDataTypeInt64(encoder, value as bigint | number);
