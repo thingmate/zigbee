@@ -2,8 +2,17 @@
   "name": "@thingmate/zigbee",
   "version": "0.2.1",
   "type": "module",
-  "description": "Zigbee adapters",
-  "keywords": [],
+  "description": "Typed Zigbee Cluster Library (ZCL) adapters: stream-based attributes and commands over your Zigbee adapter",
+  "keywords": [
+    "zigbee",
+    "zcl",
+    "cluster-library",
+    "iot",
+    "smart-home",
+    "stream",
+    "adapter",
+    "typescript"
+  ],
   "author": "Valentin Richard",
   "license": "MIT",
   "repository": {
