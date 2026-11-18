@@ -2,7 +2,7 @@ import type { ZCLPayloadMapper } from '../../../../../../payload/mapper/z-c-l-pa
 import { ServerZCLClusterCommand } from '../../../../../primitives/command/pre-filter/host/server/server-z-c-l-cluster-command.ts';
 import type { PrefilteredZCLClusterCommandStream } from '../../../../../primitives/command/pre-filter/prefiltered-z-c-l-cluster-command.ts';
 
-export class PowerConfigurationServerZCLClusterCommand<
+export class PowerConfigurationClusterServerZCLClusterCommand<
   GArguments extends readonly unknown[],
 > extends ServerZCLClusterCommand<GArguments> {
   constructor(
