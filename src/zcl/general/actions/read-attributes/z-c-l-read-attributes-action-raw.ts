@@ -23,6 +23,10 @@ export interface ZCLReadAttributesActionRawOptions {
    * The first call opens the window; calls arriving during it are merged into the same request.
    * Calls arriving while a request is in-flight start a new window.
    *
+   * Requests targeting the same cluster are serialized: a request is only sent once the previous
+   * request on the same cluster completed, so that a response can never complete another request
+   * than its own.
+   *
    * Set to `0` to disable grouping.
    */
   readonly debounceMs?: number;
@@ -116,6 +120,35 @@ export class ZCLReadAttributesActionRaw extends AsyncFunction<
         ),
       });
 
+    const inFlightByCluster: Map<number /* cluster */, Promise<unknown>> = new Map<
+      number /* cluster */,
+      Promise<unknown>
+    >();
+
+    /**
+     * Starts the given request once the previous in-flight request on the same cluster completed,
+     * keeping a single active read-attributes response listener per cluster: a response can then
+     * never complete another request than its own.
+     */
+    const enqueueRequest = (
+      cluster: number,
+      startRequest: () => Promise<ZCLReadAttributesActionResult>,
+    ): Promise<ZCLReadAttributesActionResult> => {
+      const previousRequest: Promise<unknown> | undefined = inFlightByCluster.get(cluster);
+      const request: Promise<ZCLReadAttributesActionResult> = (previousRequest ?? Promise.resolve())
+        .catch((): void => {})
+        .then(startRequest);
+      inFlightByCluster.set(cluster, request);
+      request
+        .finally((): void => {
+          if (inFlightByCluster.get(cluster) === request) {
+            inFlightByCluster.delete(cluster);
+          }
+        })
+        .catch((): void => {}); // the caller handles the request rejection; this settles the cleanup chain
+      return request;
+    };
+
     let input: AsyncFunctionLike<ZCLReadAttributesActionArguments, ZCLReadAttributesActionResult> =
       action;
 
@@ -146,14 +179,16 @@ export class ZCLReadAttributesActionRaw extends AsyncFunction<
               if (batchByCluster.get(cluster) === batch) {
                 batchByCluster.delete(cluster);
               }
-              return action
-                .call(controller.signal, {
-                  cluster,
-                  attributes: Array.from(attributeIds),
-                })
-                .finally((): void => {
-                  controller.abort(); // releases the waiter signals' listeners
-                });
+              return enqueueRequest(cluster, (): Promise<ZCLReadAttributesActionResult> => {
+                return action
+                  .call(controller.signal, {
+                    cluster,
+                    attributes: Array.from(attributeIds),
+                  })
+                  .finally((): void => {
+                    controller.abort(); // releases the waiter signals' listeners
+                  });
+              });
             },
           );
 
@@ -208,6 +243,17 @@ export class ZCLReadAttributesActionRaw extends AsyncFunction<
           }
 
           return attributeStatusRecordField;
+        });
+      };
+    } else {
+      input = async (
+        signal: AbortSignal,
+        { cluster, attributes }: ZCLReadAttributesActionCommandOptions,
+      ): Promise<ZCLReadAttributesActionResult> => {
+        signal.throwIfAborted();
+
+        return enqueueRequest(cluster, (): Promise<ZCLReadAttributesActionResult> => {
+          return action.call(signal, { cluster, attributes });
         });
       };
     }

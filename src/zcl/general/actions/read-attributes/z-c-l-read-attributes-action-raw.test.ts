@@ -132,6 +132,30 @@ describe('ZCLReadAttributesActionRaw', (): void => {
     ]);
   });
 
+  test('completes each concurrent call with its own response when grouping is disabled.', async (): Promise<void> => {
+    const { action, mock } = createZCLReadAttributesActionRaw(0);
+
+    const promise1: Promise<ZCLReadAttributesActionResult> = action.call(
+      new AbortController().signal,
+      { cluster: 0x0006, attributes: [0x0000] },
+    );
+    const promise2: Promise<ZCLReadAttributesActionResult> = action.call(
+      new AbortController().signal,
+      { cluster: 0x0006, attributes: [0x0000] },
+    );
+
+    await wait(0);
+
+    mock.emit(createResponseCommandFrame(new Uint8Array([0x00, 0x00, 0x00, 0x10, 0x00])));
+
+    await wait(0); // lets the second request start once the first one completed
+
+    mock.emit(createResponseCommandFrame(new Uint8Array([0x00, 0x00, 0x00, 0x10, 0x01])));
+
+    expect(await promise1).toEqual([{ id: 0x0000, status: 0x00, type: 0x10, value: false }]);
+    expect(await promise2).toEqual([{ id: 0x0000, status: 0x00, type: 0x10, value: true }]);
+  });
+
   test('groups concurrent calls targeting the same cluster.', async (): Promise<void> => {
     const { action, mock } = createZCLReadAttributesActionRaw(10);
 
