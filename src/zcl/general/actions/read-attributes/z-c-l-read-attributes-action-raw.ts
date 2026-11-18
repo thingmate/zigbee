@@ -164,6 +164,10 @@ export class ZCLReadAttributesActionRaw extends AsyncFunction<
       ): Promise<ZCLReadAttributesActionResult> => {
         signal.throwIfAborted();
 
+        if (attributes.length === 0) {
+          throw new Error('The attributes list must not be empty.');
+        }
+
         let batch: ReadAttributesBatch;
 
         const existingBatch: ReadAttributesBatch | undefined = batchByCluster.get(cluster);
@@ -251,6 +255,10 @@ export class ZCLReadAttributesActionRaw extends AsyncFunction<
         { cluster, attributes }: ZCLReadAttributesActionCommandOptions,
       ): Promise<ZCLReadAttributesActionResult> => {
         signal.throwIfAborted();
+
+        if (attributes.length === 0) {
+          throw new Error('The attributes list must not be empty.');
+        }
 
         return enqueueRequest(cluster, (): Promise<ZCLReadAttributesActionResult> => {
           return action.call(signal, { cluster, attributes });
