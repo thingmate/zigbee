@@ -1,12 +1,11 @@
+import type { HavingCommandAbilities } from '@thingmate/abilities';
 import { abortify, sleep } from '@xstd/abortable';
 import { AsyncFunction, type AsyncFunctionLike } from '@xstd/async-function';
 import { block } from '@xstd/block';
 import { NONE, type None } from '@xstd/none';
 import type { ZCLReadAttributesCommandPayload } from '../../commands/built-in/0x00-read-attributes/payload/z-c-l-read-attributes-command-payload.ts';
-import { ZCLReadAttributesCommand } from '../../commands/built-in/0x00-read-attributes/z-c-l-read-attributes-command.ts';
 import type { ZCLReadAttributesResponseCommandPayload } from '../../commands/built-in/0x01-read-attributes-response/payload/z-c-l-read-attributes-response-command-payload.ts';
 import type { ZCLReadAttributesStatusRecordField } from '../../commands/built-in/0x01-read-attributes-response/status-record-field/z-c-l-read-attributes-status-record-field.ts';
-import { ZCLReadAttributesResponseCommand } from '../../commands/built-in/0x01-read-attributes-response/z-c-l-read-attributes-response-command.ts';
 import type {
   ZCLGeneralCommandArguments,
   ZCLGeneralCommandOptions,
@@ -14,8 +13,12 @@ import type {
 import type { ZCLReadAttributesActionResult } from './z-c-l-read-attributes-action-result.ts';
 
 export interface ZCLReadAttributesActionRawOptions {
-  readonly readAttributesCommand: ZCLReadAttributesCommand;
-  readonly readAttributesResponseCommand: ZCLReadAttributesResponseCommand;
+  readonly readAttributesCommand: HavingCommandAbilities<
+    ZCLGeneralCommandArguments<ZCLReadAttributesCommandPayload>
+  >;
+  readonly readAttributesResponseCommand: HavingCommandAbilities<
+    ZCLGeneralCommandArguments<ZCLReadAttributesResponseCommandPayload>
+  >;
   /**
    * Time window, in milliseconds, during which concurrent calls targeting the same cluster
    * are accumulated and grouped into a single request.
