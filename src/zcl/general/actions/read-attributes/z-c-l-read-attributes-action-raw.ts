@@ -263,9 +263,12 @@ export class ZCLReadAttributesActionRaw extends AsyncFunction<
           throw new Error('The attributes list must not be empty.');
         }
 
-        return enqueueRequest(cluster, (): Promise<ZCLReadAttributesActionResult> => {
-          return action.call(signal, { cluster, attributes });
-        });
+        return abortify(
+          enqueueRequest(cluster, (): Promise<ZCLReadAttributesActionResult> => {
+            return action.call(signal, { cluster, attributes });
+          }),
+          { signal },
+        );
       };
     }
 

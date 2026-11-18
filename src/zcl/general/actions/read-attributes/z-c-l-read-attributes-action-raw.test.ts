@@ -166,6 +166,37 @@ describe('ZCLReadAttributesActionRaw', (): void => {
     await rejection;
   });
 
+  test('rejects promptly when a queued call aborts.', async (): Promise<void> => {
+    const { action, mock } = createZCLReadAttributesActionRaw(0);
+
+    const promise1: Promise<ZCLReadAttributesActionResult> = action.call(
+      new AbortController().signal,
+      { cluster: 0x0006, attributes: [0x0000] },
+    );
+
+    await wait(0); // request 1 is in-flight
+
+    const controller2: AbortController = new AbortController();
+    const promise2: Promise<ZCLReadAttributesActionResult> = action.call(controller2.signal, {
+      cluster: 0x0006,
+      attributes: [0x0001],
+    });
+
+    controller2.abort(); // call 2 is queued behind request 1
+
+    const settled: string = await Promise.race([
+      promise2.then(
+        (): string => 'settled',
+        (): string => 'rejected',
+      ),
+      wait(50).then((): string => 'pending'),
+    ]);
+    expect(settled).toBe('rejected');
+
+    mock.emit(createResponseCommandFrame(new Uint8Array([...SUCCESS_RECORD_0])));
+    await promise1;
+  });
+
   test('groups concurrent calls targeting the same cluster.', async (): Promise<void> => {
     const { action, mock } = createZCLReadAttributesActionRaw(10);
 
