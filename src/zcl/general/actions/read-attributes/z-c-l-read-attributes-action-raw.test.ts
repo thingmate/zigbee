@@ -166,6 +166,16 @@ describe('ZCLReadAttributesActionRaw', (): void => {
     await rejection;
   });
 
+  test('rejects an empty attributes list when grouping is enabled.', async (): Promise<void> => {
+    const { action } = createZCLReadAttributesActionRaw(50);
+
+    const rejection: Promise<void> = expect(
+      action.call(new AbortController().signal, { cluster: 0x0006, attributes: [] }),
+    ).rejects.toThrow('The attributes list must not be empty.');
+
+    await rejection;
+  });
+
   test('rejects promptly when a queued call aborts.', async (): Promise<void> => {
     const { action, mock } = createZCLReadAttributesActionRaw(0);
 
