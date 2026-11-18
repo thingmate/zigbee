@@ -6,8 +6,9 @@ import {
 } from '../../prefiltered-z-c-l-cluster-command.ts';
 
 /**
- * A cluster command received on the cluster server side:
- * frames are matched with the `client-to-server` direction.
+ * A cluster command bound to the `client-to-server` direction:
+ * `observe` matches the frames received on the cluster server side,
+ * and `send` emits frames as the cluster client would.
  */
 export class ServerZCLClusterCommand<
   GArguments extends readonly unknown[],
