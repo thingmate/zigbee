@@ -31,4 +31,14 @@ describe('decodeZCLZoneStatusChangeNotificationCommandPayload', (): void => {
       delay: 0x0100,
     });
   });
+
+  test('throws on a non-zero reserved extended status.', (): void => {
+    expect((): void => {
+      // map16 zone status (0x005c) + map8 extended status (0x01: violation) + uint8 zone id + uint16 delay
+      Decoder.decode(
+        new Uint8Array([0x5c, 0x00, 0x01, 0x0a, 0x00, 0x01]),
+        decodeZCLZoneStatusChangeNotificationCommandPayload,
+      );
+    }).toThrow('Invalid extended status: 0x01.');
+  });
 });
