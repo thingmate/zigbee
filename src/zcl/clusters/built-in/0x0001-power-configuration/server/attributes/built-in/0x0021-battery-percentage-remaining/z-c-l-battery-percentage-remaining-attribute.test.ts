@@ -69,7 +69,7 @@ describe('ZCLBatteryPercentageRemainingAttribute', (): void => {
 
     const promise: Promise<number> = attribute.read.call(new AbortController().signal);
 
-    await wait(150);
+    await wait(300);
 
     mock.emit({
       cluster: 0x0001,
