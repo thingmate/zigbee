@@ -157,18 +157,13 @@ describe('ZCLReadAttributesActionRaw', (): void => {
   });
 
   test('rejects an empty attributes list.', async (): Promise<void> => {
-    const { action, mock } = createZCLReadAttributesActionRaw(0);
+    const { action } = createZCLReadAttributesActionRaw(0);
 
-    const promise: Promise<ZCLReadAttributesActionResult> = action.call(
-      new AbortController().signal,
-      { cluster: 0x0006, attributes: [] },
-    );
+    const rejection: Promise<void> = expect(
+      action.call(new AbortController().signal, { cluster: 0x0006, attributes: [] }),
+    ).rejects.toThrow('The attributes list must not be empty.');
 
-    await wait(0);
-
-    mock.emit(createResponseCommandFrame(new Uint8Array([...SUCCESS_RECORD_0])));
-
-    await expect(promise).rejects.toThrow('The attributes list must not be empty.');
+    await rejection;
   });
 
   test('groups concurrent calls targeting the same cluster.', async (): Promise<void> => {
