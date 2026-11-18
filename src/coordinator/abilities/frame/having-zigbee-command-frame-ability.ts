@@ -1,5 +1,5 @@
 import { type HavingCommandAbilities } from '@thingmate/abilities';
-import type { ZCLCommandFrame } from '../../../command-frame/z-c-l-command-frame.ts';
+import type { ZCLCommandFrame } from '../../../zcl/command-frame/z-c-l-command-frame.ts';
 
 /**
  * Arguments of the Zigbee command-frame command abilities: the {@link ZCLCommandFrame} to send.

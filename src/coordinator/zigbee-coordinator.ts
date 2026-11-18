@@ -7,7 +7,7 @@ import type { HavingZigbeeCoordinatorAbilities } from './having-zigbee-coordinat
  * A Zigbee coordinator, composed of its individual abilities.
  *
  * It exposes the coordinator's network configuration,
- * an action opening or closing the network to new devices,
+ * an action opening the network to new devices for a given duration,
  * and command abilities sending and observing ZCL command frames.
  */
 export class ZigbeeCoordinator implements HavingZigbeeCoordinatorAbilities {
@@ -33,7 +33,8 @@ export class ZigbeeCoordinator implements HavingZigbeeCoordinatorAbilities {
   }
 
   /**
-   * Action opening or closing the network to new devices.
+   * Action opening the network to new devices for a given duration (in seconds).
+   * A duration of `0` closes the network immediately.
    */
   get permitJoin(): ZigbeePermitJointAction {
     return this.#permitJoin;
