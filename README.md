@@ -238,16 +238,14 @@ the device reports such a value.
 
 Some numeric attributes carry special wire values which pass through unchanged: the illuminance
 min/max measured value attributes report `0x0000` (too low to measure) and `0xffff` (invalid value)
-as-is, signaling an undefined measured range. Each attribute's class documents its unit, scaling,
-and special wire values; each command documents its arguments.
+as-is, signaling an undefined measured range.
 
 ### Architecture
 
 The library is layered: the coordinator adapter bundles the transport-side abilities (network
 configuration, permit-join, and the command-frame stream), ZCL command frames are pre-filtered per
 cluster/command, payloads are encoded and decoded by codecs and payload mappers, and attributes and
-commands compose these into the terminal classes. All internals are documented with JSDoc,
-including the ZCL specification sections they implement. Contributions adding new clusters only
+commands compose these into the terminal classes. Contributions adding new clusters only
 need to follow the existing one-module-per-file layout.
 
 ## 🧾 License
