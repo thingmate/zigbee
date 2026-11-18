@@ -17,7 +17,7 @@ export class ZCLTemperatureMeasuredValueAttribute extends TemperatureMeasurement
 const TEMPERATURE_MEASURED_VALUE_ZCL_ATTRIBUTE_MAPPER: ZCLAttributeMapper<number> = {
   inOut: MUL_100_NUMBER_ZCL_ATTRIBUTE_MAPPER.inOut,
   outIn: (value: unknown): number => {
-    if (value === 0x8000) {
+    if (value === -0x8000) {
       throw new Error('Invalid temperature measured value wire value: 0x8000.');
     }
     return MUL_100_NUMBER_ZCL_ATTRIBUTE_MAPPER.outIn(value);
