@@ -1,6 +1,6 @@
 {
   "name": "@thingmate/zigbee",
-  "version": "0.2.1",
+  "version": "1.0.0",
   "type": "module",
   "description": "Typed Zigbee Cluster Library (ZCL) adapters: stream-based attributes and commands over your Zigbee adapter",
   "keywords": [
