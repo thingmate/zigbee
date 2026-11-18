@@ -263,7 +263,7 @@ describe('ZCLReadAttributesActionRaw', (): void => {
   });
 
   test("does not delete a newer batch when an older in-flight batch's last waiter aborts.", async (): Promise<void> => {
-    const { action, mock } = createZCLReadAttributesActionRaw(10);
+    const { action, mock } = createZCLReadAttributesActionRaw(50);
 
     const controller1: AbortController = new AbortController();
     const promise1: Promise<ZCLReadAttributesActionResult> = action.call(controller1.signal, {
@@ -272,14 +272,14 @@ describe('ZCLReadAttributesActionRaw', (): void => {
     });
     const rejection1: Promise<void> = expect(promise1).rejects.toThrow();
 
-    await wait(30); // batch 1's window is over: its request is in-flight
+    await wait(150); // batch 1's window is over: its request is in-flight
 
     const promise2: Promise<ZCLReadAttributesActionResult> = action.call(
       new AbortController().signal,
       { cluster: 0x0006, attributes: [0x0001] },
     );
 
-    await wait(5); // batch 2 is accumulating
+    await wait(25); // batch 2 is accumulating
 
     controller1.abort();
 
@@ -288,7 +288,7 @@ describe('ZCLReadAttributesActionRaw', (): void => {
       { cluster: 0x0006, attributes: [0x0002] },
     );
 
-    await wait(30);
+    await wait(150);
 
     expect(mock.sent).toEqual([
       [
