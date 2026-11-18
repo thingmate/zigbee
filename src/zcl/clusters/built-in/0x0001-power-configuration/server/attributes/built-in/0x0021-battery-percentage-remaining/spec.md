@@ -1,1 +1,1 @@
-3.3.2.2.3.2 BatteryPercentageRemaining Attribut
+3.3.2.2.3.2 BatteryPercentageRemaining Attribute
