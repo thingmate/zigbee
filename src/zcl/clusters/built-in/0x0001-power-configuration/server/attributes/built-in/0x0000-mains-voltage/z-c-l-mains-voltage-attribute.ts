@@ -5,6 +5,8 @@ import { PowerConfigurationClusterZCLClusterAttribute } from '../../attribute/po
 
 /**
  * Unit: V
+ *
+ * Wire value: 0-6553.5 V in 0.1 V steps; 0xffff: unknown value.
  */
 export class ZCLMainsVoltageAttribute extends PowerConfigurationClusterZCLClusterAttribute<number> {
   constructor(stream: ZCLClusterAttributeStream) {

@@ -5,6 +5,8 @@ import { TemperatureMeasurementClusterZCLClusterAttribute } from '../../attribut
 
 /**
  * Unit: °C
+ *
+ * Wire value: int16 in 0.01 °C steps; 0x8000: invalid value.
  */
 export class ZCLTemperatureMeasuredValueAttribute extends TemperatureMeasurementClusterZCLClusterAttribute<number> {
   constructor(stream: ZCLClusterAttributeStream) {

@@ -216,6 +216,13 @@ try {
 }
 ```
 
+Some numeric attributes reject the invalid wire values defined by the ZCL specification with a
+plain `Error` (not a `ZCLStatusError`): `ZCLTemperatureMeasuredValueAttribute` (`0x8000`),
+`ZCLMainsVoltageAttribute` (`0xffff`), `ZCLBatteryVoltageAttribute` (`0xff`),
+`ZCLRelativeHumidityMeasuredValueAttribute` (`0xffff`), and
+`ZCLBatteryPercentageRemainingAttribute` (`0xff`) — a `read` rejects and an `observe` stops when
+the device reports such a value.
+
 ### Supported clusters
 
 | Cluster                                | Attributes                                                                                                                                                                                                                                            | Commands                                            |
