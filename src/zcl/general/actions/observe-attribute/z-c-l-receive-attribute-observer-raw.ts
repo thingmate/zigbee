@@ -13,9 +13,6 @@ export interface ZCLReceiveAttributeObserverRawOptions {
   readonly reportAttributesCommand: ZCLReportAttributesCommand;
 }
 
-// export type ZCLReceiveAttributeObserverCommandOptions =
-//   ZCLGeneralCommandOptions<number /* attribute id */>;
-
 export interface ZCLReceiveAttributeObserverCommandOptions extends Omit<
   ZCLGeneralCommandOptions<void>,
   'payload'
