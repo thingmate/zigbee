@@ -1,5 +1,5 @@
-import { type Decoder, decodeUint24LE } from '@xstd/codec';
+import type { Decoder } from '@xstd/codec';
 
 export function decodeZCLDataTypeUint24(decoder: Decoder): number {
-  return decodeUint24LE(decoder);
+  return decoder.uint24LE();
 }
