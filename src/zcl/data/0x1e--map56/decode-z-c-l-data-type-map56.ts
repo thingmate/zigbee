@@ -1,5 +1,5 @@
-import { type Decoder, decodeUint56LE } from '@xstd/codec';
+import type { Decoder } from '@xstd/codec';
 
 export function decodeZCLDataTypeMap56(decoder: Decoder): bigint {
-  return decodeUint56LE(decoder);
+  return decoder.uint56LE();
 }

@@ -1,5 +1,5 @@
-import { type Decoder, decodeUint48LE } from '@xstd/codec';
+import type { Decoder } from '@xstd/codec';
 
 export function decodeZCLDataTypeData48(decoder: Decoder): number {
-  return decodeUint48LE(decoder);
+  return decoder.uint48LE();
 }
